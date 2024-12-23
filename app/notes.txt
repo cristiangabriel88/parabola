@@ -1,0 +1,13 @@
+mysql -u root -p
+USE parabola;
+SELECT * FROM users;
+
+flask shell
+exit()
+
+flask db init
+flask db migrate -m "Initial setup"
+flask db upgrade
+
+flask db migrate -m "Create users table"
+flask db upgrade
