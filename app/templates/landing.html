@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5 p-24">
+	<h1 class="text-center">Enter Your Birth Details</h1>
+	<form id="locationForm" action="/calculate" method="POST" class="mt-4">
+		<div class="mb-3">
+			<label for="name" class="form-label">Name</label>
+			<input type="text" class="form-control" id="name" name="name" required>
+		</div>
+		<div class="mb-3">
+			<label for="dob" class="form-label">Date of Birth</label>
+			<input type="date" class="form-control" id="dob" name="dob" required>
+		</div>
+		<div class="mb-3">
+			<label for="hour" class="form-label">Hour of Birth</label>
+			<input type="time" class="form-control" id="hour" name="hour" required>
+		</div>
+		<div class="mb-3">
+			<label for="country" class="form-label">Country</label>
+			<select class="form-select" id="country" name="country" required>
+				<option value="">Select a country</option>
+			</select>
+		</div>
+		<div class="mb-3">
+			<label for="city" class="form-label">City</label>
+			<select class="form-select" id="city" name="city" required>
+				<option value="">Select a city</option>
+			</select>
+		</div>
+		<button type="submit" class="btn btn-primary">Calculate</button>
+	</form>
+</div>
+{% endblock %}

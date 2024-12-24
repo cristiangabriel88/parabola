@@ -1,10 +1,16 @@
 body {
 	font-family: 'Arial', sans-serif;
-	background-color: #f8f9fa;
+	background-color: #333e45;
+	color: rgb(206, 206, 206);
 }
 
 .container {
 	margin-top: 50px;
+}
+
+.results-container {
+	background-color: #333e45 !important;
+	color: #d4e3ed;
 }
 
 .navbar {

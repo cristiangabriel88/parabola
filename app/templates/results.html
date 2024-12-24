@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container results-container mt-4">
+	<h1 class="text-center">Astrology Results</h1>
+	<div class="card mt-4">
+		<div class="card-body results-container">
+			<h5 class="card-title text-center">Hello, {{ name }}!</h5>
+			<p class="card-text text-center">Here are your astrological details:</p>
+			<hr>
+			<ul class="list-unstyled">
+				<li><strong>Date of Birth:</strong> {{ dob }}</li>
+				<li><strong>Time of Birth:</strong> {{ hour }}</li>
+				<li><strong>Place of Birth:</strong> {{ city }}, {{ country }}</li>
+			</ul>
+			<hr>
+			<h5 class="mt-3">Astrological Details</h5>
+			<ul class="list-unstyled">
+				<li><strong>Sun Sign:</strong> {{ sun_sign }}</li>
+				<li><strong>Rising Sign (Ascendant):</strong> {{ rising_sign }}</li>
+				<li><strong>Ruling Planet:</strong> {{ ruling_planet }}</li>
+			</ul>
+			<hr>
+			<h5 class="mt-3">House Cusps</h5>
+			<ul class="list-unstyled">
+				{% for house, cusp in houses.items() %}
+				<li><strong>{{ house }}:</strong> {{ cusp }}°</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="text-center mt-3">
+		<a href="/home" class="btn btn-primary">Go Back</a>
+	</div>
+</div>
+{% endblock %}
