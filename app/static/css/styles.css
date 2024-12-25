@@ -1,5 +1,5 @@
 body {
-	font-family: 'Arial', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	background-color: #333e45;
 	color: rgb(206, 206, 206);
 }
@@ -9,10 +9,96 @@ body {
 }
 
 .results-container {
-	background-color: #333e45 !important;
+	background-color: #536570 !important;
 	color: #d4e3ed;
 }
 
 .navbar {
 	margin-bottom: 20px;
+}
+
+h1 {
+	font-weight: 700;
+	color: #dae7f5;
+}
+
+form {
+	border: 1px solid #6e6b6b;
+}
+
+.image-placeholder {
+	height: 500px;
+	background: #64788c;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.5rem;
+	font-weight: 500;
+	color: #ccdbe9;
+	background-image: url('/static/images/background.jpg');
+	background-size: cover;
+	background-position: center;
+}
+
+.results-container {
+	max-width: 600px;
+	margin: 50px auto;
+	background-color: #475058;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+}
+
+h5.card-title,
+p.card-text {
+	margin-bottom: 10px;
+}
+
+ul.list-unstyled {
+	padding-left: 0;
+}
+
+
+.card-body {
+	padding: 20px;
+	color: #dae7f5;
+	background-color: #475058;
+}
+
+.carousel-inner img {
+	max-height: 300px;
+	object-fit: contain;
+}
+
+.carousel-indicators li {
+	list-style: none;
+	/* Remove list-style markers */
+}
+
+.carousel {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+/* Move carousel indicators below the image */
+.carousel-indicators {
+	position: static;
+	/* bottom: -20px; */
+	margin-top: 10px;
+	justify-content: center;
+}
+
+.carousel-caption {
+	position: static;
+	/* Default flow after the image */
+	text-align: center;
+	/* Center-align the text */
+	margin-top: 10px;
+	/* Add spacing above the caption */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+	width: 5%;
+
 }

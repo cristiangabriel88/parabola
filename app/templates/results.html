@@ -1,31 +1,72 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container results-container mt-4">
-	<h1 class="text-center">Astrology Results</h1>
-	<div class="card mt-4">
-		<div class="card-body results-container">
-			<h5 class="card-title text-center">Hello, {{ name }}!</h5>
-			<p class="card-text text-center">Here are your astrological details:</p>
-			<hr>
-			<ul class="list-unstyled">
-				<li><strong>Date of Birth:</strong> {{ dob }}</li>
-				<li><strong>Time of Birth:</strong> {{ hour }}</li>
-				<li><strong>Place of Birth:</strong> {{ city }}, {{ country }}</li>
-			</ul>
-			<hr>
-			<h5 class="mt-3">Astrological Details</h5>
-			<ul class="list-unstyled">
-				<li><strong>Sun Sign:</strong> {{ sun_sign }}</li>
-				<li><strong>Rising Sign (Ascendant):</strong> {{ rising_sign }}</li>
-				<li><strong>Ruling Planet:</strong> {{ ruling_planet }}</li>
-			</ul>
-			<hr>
-			<h5 class="mt-3">House Cusps</h5>
-			<ul class="list-unstyled">
-				{% for house, cusp in houses.items() %}
-				<li><strong>{{ house }}:</strong> {{ cusp }}°</li>
-				{% endfor %}
-			</ul>
+<div class="container mt-5">
+	<div class="results-container">
+		<div class="card">
+			<div class="card-body text-center">
+				<h5 class="card-title">Hello, {{ name }}!</h5>
+				<p class="card-text">Here are your astrological details:</p>
+				<hr>
+				<ul class="list-unstyled">
+					<li><strong>Date of Birth:</strong> {{ dob }}</li>
+					<li><strong>Time of Birth:</strong> {{ hour }}</li>
+					<li><strong>Place of Birth:</strong> {{ city }}, {{ country }}</li>
+				</ul>
+				<hr>
+				<h5>Astrological Details</h5>
+				<ul class="list-unstyled">
+					<li><strong>Sun Sign:</strong> {{ sun_sign }}</li>
+					<li><strong>Rising Sign (Ascendant):</strong> {{ rising_sign }}</li>
+					<li><strong>Ruling Planet:</strong> {{ ruling_planet }}</li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Carousel Section -->
+		<div id="carouselExampleIndicators" class="carousel slide mt-4 mb-4" data-bs-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<img class="d-block w-100"
+						src="{{ url_for('static', filename='images/signs/' + sun_sign.lower() + '.jpg') }}"
+						alt="{{ sun_sign }}">
+					<div class="carousel-caption">
+						<h5>Sun Sign</h5>
+					</div>
+				</div>
+
+				<div class="carousel-item">
+					<img class="d-block w-100"
+						src="{{ url_for('static', filename='images/signs/' + rising_sign.lower() + '.jpg') }}"
+						alt="{{ rising_sign }}">
+					<div class="carousel-caption">
+						<h5>Rising Sign (Ascendant)</h5>
+					</div>
+				</div>
+
+				<div class="carousel-item">
+					<img class="d-block w-100"
+						src="{{ url_for('static', filename='images/planets/' + ruling_planet.split('/')[0].lower() + '.jpg') }}"
+						alt="{{ ruling_planet }}">
+					<div class="carousel-caption">
+						<h5>Ruling Planet</h5>
+					</div>
+				</div>
+			</div>
+
+			<!-- Indicators (moved below images) -->
+			<ol class="carousel-indicators">
+				<li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
+				<li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
+				<li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
+			</ol>
+
+			<!-- Controls -->
+			<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			</a>
+			<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			</a>
 		</div>
 	</div>
 	<div class="text-center mt-3">

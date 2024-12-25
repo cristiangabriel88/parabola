@@ -1,1 +1,7 @@
-pip install flask flask-sqlalchemy flask-migrate pymysql
+Flask==2.2.3
+Flask-SQLAlchemy==2.5.1
+Flask-Migrate==4.0.4
+PyMySQL==1.0.2
+swisseph==2.10.2
+pytz==2023.3
+timezonefinder==6.1.7
