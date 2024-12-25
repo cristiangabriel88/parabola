@@ -1,4 +1,10 @@
+######### Activate Virtual environment ##########
 source venv/Scripts/activate
+flask run
+
+deactivate  //to deactivate venv
+
+#################################################
 
 mysql -u root -p
 USE parabola;
