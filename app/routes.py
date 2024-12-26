@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify
+from flask import Flask, Blueprint, render_template, request, redirect, url_for, jsonify
 from datetime import datetime
 import swisseph as swe
 import json
@@ -6,14 +6,22 @@ from pytz import timezone, utc
 from timezonefinder import TimezoneFinder
 
 main = Blueprint("main", __name__)
+app = Flask(__name__)
 
-CITY_COORDINATES = {
-    "Bucharest (Romania)": (44.4268, 26.1025),
-    "New York (USA)": (40.7128, -74.0060),
-    "London (United Kingdom)": (51.5074, -0.1278),
-    "Tokyo (Japan)": (35.6895, 139.6917),
-}
+def validate_date(date_string):
+    try:
+        datetime.strptime(date_string, "%d/%m/%Y")
+        return True
+    except ValueError:
+        return False
 
+def validate_time(time_string):
+    try:
+        datetime.strptime(time_string, "%H:%M")
+        return True
+    except ValueError:
+        return False
+    
 def get_timezone_from_coordinates(latitude, longitude):
     """
     Get the IANA time zone name based on latitude and longitude.
@@ -100,6 +108,9 @@ def calculate_ascendant(dob, birth_time, latitude, longitude):
 
 def calculate_astrology_details(dob, birth_time, latitude, longitude):
     try:
+        # Convert from DD/MM/YYYY to YYYY-MM-DD
+        # dob_converted = datetime.strptime(dob, "%d/%m/%Y").strftime("%Y-%m-%d")
+        
         # Combine date and time of birth into a single datetime object
         birth_datetime = datetime.strptime(f"{dob} {birth_time}", "%Y-%m-%d %H:%M")
 
@@ -164,34 +175,32 @@ def get_astrological_sign(longitude):
 
 @main.route("/calculate", methods=["POST"])
 def calculate():
-    city_coordinates = request.form.get("city_coordinates")
-    if not city_coordinates:
-        return "Error: Missing city coordinates.", 400
-
     try:
-        city_coordinates = json.loads(city_coordinates)
-        country = city_coordinates.get("country")
-        city = city_coordinates.get("city")
-        coordinates = city_coordinates.get("coordinates")
+        city_coordinates = request.form.get("city_coordinates")
+        dob = request.form.get("dob")
+        hour = request.form.get("hour")
+        latitude = request.form.get("latitude")
+        longitude = request.form.get("longitude")
 
-        if not coordinates:
-            return "Error: Missing coordinates.", 400
+        print(f"Received data: city_coordinates={city_coordinates}, dob={dob}, hour={hour}, latitude={latitude}, longitude={longitude}")
 
-        latitude, longitude = map(float, coordinates.strip("()").split(", "))
+        if not all([city_coordinates, dob, hour, latitude, longitude]):
+            return "Error: Missing required form data.", 400
 
-        # Extract additional form data
-        name = request.form["name"]
-        dob = request.form["dob"]
-        hour = request.form["hour"]
+        # if not validate_date(dob):
+        #     return "Error: Invalid date format. Use DD/MM/YYYY.", 400
 
-        # Calculate astrology details
+        # if not validate_time(hour):
+        #     return "Error: Invalid time format. Use HH:MM.", 400
+
+        latitude = float(latitude)
+        longitude = float(longitude)
+
         astrology_details = calculate_astrology_details(dob, hour, latitude, longitude)
 
         return render_template(
             "results.html",
-            name=name,
-            country=country,
-            city=city,
+            city=city_coordinates,
             dob=datetime.strptime(dob, "%Y-%m-%d").strftime("%B %d, %Y"),
             hour=datetime.strptime(hour, "%H:%M").strftime("%I:%M %p"),
             sun_sign=astrology_details["sun_sign"],
@@ -201,6 +210,8 @@ def calculate():
         )
     except ValueError as e:
         return render_template("error.html", message=f"An error occurred: {e}")
+    except Exception as e:
+        return f"Unexpected error: {e}", 500
     
 # Redirect the root "/" to the login page
 @main.route("/")
