@@ -1,12 +1,14 @@
-from flask import Flask, Blueprint, render_template, request, redirect, url_for, jsonify
+from flask import Flask, Blueprint, render_template, request, redirect, url_for, jsonify, session
 from datetime import datetime
 import swisseph as swe
 import json
 from pytz import timezone, utc
 from timezonefinder import TimezoneFinder
+# from app.ai_description import generate_local_description
 
 main = Blueprint("main", __name__)
 app = Flask(__name__)
+app.secret_key = "1qaz"
 
 def validate_date(date_string):
     try:
@@ -39,6 +41,29 @@ def get_timezone_from_coordinates(latitude, longitude):
         raise ValueError(f"Could not determine time zone for coordinates: {latitude}, {longitude}")
     return timezone_name
 
+# ? ASTROLOGY SIGN
+def get_astrological_sign(longitude):
+    """
+    Get the astrological sign based on longitude.
+
+    Args:
+        longitude (float): Longitude of the celestial body.
+
+    Returns:
+        str: Zodiac sign corresponding to the longitude.
+    """
+    
+    if isinstance(longitude, tuple):
+        longitude = longitude[0] 
+        
+    signs = [
+        "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
+        "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
+    ]
+    index = int(longitude // 30)  # Each zodiac sign spans 30 degrees
+    return signs[index]
+
+# ? ASTROLOGY ASCENDANT
 def calculate_ascendant(dob, birth_time, latitude, longitude):
     """
     Calculate the Ascendant (Rising Sign), considering DST and local time zone.
@@ -106,6 +131,30 @@ def calculate_ascendant(dob, birth_time, latitude, longitude):
 
     return ascendant_sign, ascendant_degree
 
+def get_element(sign):
+    """
+    Determine the astrological element (Fire, Earth, Air, Water) based on the zodiac sign.
+
+    Args:
+        sign (str): The zodiac sign (e.g., "Aries", "Taurus").
+
+    Returns:
+        str: The element corresponding to the zodiac sign.
+    """
+    elements = {
+        "Fire": ["Aries", "Leo", "Sagittarius"],
+        "Earth": ["Taurus", "Virgo", "Capricorn"],
+        "Air": ["Gemini", "Libra", "Aquarius"],
+        "Water": ["Cancer", "Scorpio", "Pisces"]
+    }
+    
+    for element, signs in elements.items():
+        if sign in signs:
+            return element
+    
+    return "Unknown"
+
+# ? ASTROLOGY DETAILS
 def calculate_astrology_details(dob, birth_time, latitude, longitude):
     try:
         # Convert from DD/MM/YYYY to YYYY-MM-DD
@@ -129,6 +178,9 @@ def calculate_astrology_details(dob, birth_time, latitude, longitude):
 
         # Calculate Ascendant
         ascendant_sign, ascendant_degree = calculate_ascendant(dob, birth_time, latitude, longitude)
+        
+		# Calculate Element
+        element = get_element(sun_sign)
 
         # Calculate Houses
         house_cusps, _ = swe.houses(julian_day, latitude, longitude, b'P')  # Placidus house system
@@ -140,42 +192,23 @@ def calculate_astrology_details(dob, birth_time, latitude, longitude):
             "Sagittarius": "Jupiter", "Capricorn": "Saturn", "Aquarius": "Saturn/Uranus",
             "Pisces": "Jupiter/Neptune"
         }
-        ruling_planet = ruling_planets.get(ascendant_sign, "Unknown")
+        ruling_planet = ruling_planets.get(sun_sign, "Unknown")
 
         return {
             "sun_sign": sun_sign,
             "rising_sign": ascendant_sign,
             "ascendant_degree": ascendant_degree,
             "ruling_planet": ruling_planet,
+            "element": element,
             "houses": {f"House {i+1}": cusp for i, cusp in enumerate(house_cusps)}
         }
     except Exception as e:
         raise ValueError(f"Error calculating astrology details: {e}")
     
-def get_astrological_sign(longitude):
-    """
-    Get the astrological sign based on longitude.
-
-    Args:
-        longitude (float): Longitude of the celestial body.
-
-    Returns:
-        str: Zodiac sign corresponding to the longitude.
-    """
-    
-    if isinstance(longitude, tuple):
-        longitude = longitude[0] 
-        
-    signs = [
-        "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
-        "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
-    ]
-    index = int(longitude // 30)  # Each zodiac sign spans 30 degrees
-    return signs[index]
-
 @main.route("/calculate", methods=["POST"])
 def calculate():
     try:
+        # Get form inputs
         city_coordinates = request.form.get("city_coordinates")
         dob = request.form.get("dob")
         hour = request.form.get("hour")
@@ -184,41 +217,65 @@ def calculate():
 
         print(f"Received data: city_coordinates={city_coordinates}, dob={dob}, hour={hour}, latitude={latitude}, longitude={longitude}")
 
+        # Check for missing data
         if not all([city_coordinates, dob, hour, latitude, longitude]):
+            print("Error: Missing required form data.")
             return "Error: Missing required form data.", 400
 
-        # if not validate_date(dob):
-        #     return "Error: Invalid date format. Use DD/MM/YYYY.", 400
-
-        # if not validate_time(hour):
-        #     return "Error: Invalid time format. Use HH:MM.", 400
-
+        # Perform calculation
         latitude = float(latitude)
         longitude = float(longitude)
-
         astrology_details = calculate_astrology_details(dob, hour, latitude, longitude)
 
-        return render_template(
-            "results.html",
-            city=city_coordinates,
-            dob=datetime.strptime(dob, "%Y-%m-%d").strftime("%B %d, %Y"),
-            hour=datetime.strptime(hour, "%H:%M").strftime("%I:%M %p"),
-            sun_sign=astrology_details["sun_sign"],
-            rising_sign=astrology_details["rising_sign"],
-            ruling_planet=astrology_details["ruling_planet"],
-            houses=astrology_details["houses"],
-        )
+        # Store results in session
+        session["results"] = {
+            "city": city_coordinates,
+            "dob": dob,
+            "hour": hour,
+            "latitude": latitude,
+            "longitude": longitude,
+            "sun_sign": astrology_details["sun_sign"],
+            "rising_sign": astrology_details["rising_sign"],
+            "ruling_planet": astrology_details["ruling_planet"],
+        }
+
+        # Redirect to results
+        print("Redirecting to /results")
+        return redirect(url_for("main.results"))
+    
     except ValueError as e:
         return render_template("error.html", message=f"An error occurred: {e}")
     except Exception as e:
         return f"Unexpected error: {e}", 500
     
-# Redirect the root "/" to the login page
+@main.route("/results", methods=["GET"])
+def results():
+    if "results" not in session:
+        print("No results in session. Redirecting to home.")
+        return redirect(url_for("main.home"))
+
+    results = session["results"]  # Retrieve results from session without popping
+    
+    sun_sign = results["sun_sign"]
+    rising_sign = results["rising_sign"]
+    # description = generate_local_description(sun_sign, rising_sign)
+    # print(description)
+    
+    return render_template(
+        "results.html",
+        city=results["city"],
+        dob=datetime.strptime(results["dob"], "%Y-%m-%d").strftime("%B %d, %Y"),
+        hour=datetime.strptime(results["hour"], "%H:%M").strftime("%I:%M %p"),
+        sun_sign=results["sun_sign"],
+        rising_sign=results["rising_sign"],
+        ruling_planet=results["ruling_planet"],
+        # description=description,
+    )
+    
 @main.route("/")
 def index():
     return redirect(url_for("main.login"))
 
-# Render the login page and handle login submissions
 @main.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -226,22 +283,21 @@ def login():
         password = request.form.get("password")
 
         # Simple login validation logic
-        if email == "user@example.com" and password == "user":
+        if email == "user" and password == "user":
             return redirect(url_for("main.home"))
         else:
             # Render the login page with an error message if login fails
             return render_template("login.html", error="Invalid login credentials.")
     return render_template("login.html")  # Render the login page for GET requests
 
-# Home route (after successful login)
 @main.route("/home")
 def home():
     return render_template("landing.html")
 
-@main.route("/dashboard")
-def dashboard():
-    return render_template("home.html")
+# @main.route("/dashboard")
+# def dashboard():
+#     return render_template("home.html")
 
-@main.route("/cards")
-def cards():
-    return render_template("cards.html")
+# @main.route("/cards")
+# def cards():
+#     return render_template("cards.html")

@@ -13,13 +13,13 @@
 			</div>
 			<div class="input-group">
 				<label for="dob" class="no-select">on</label>
-				<input id="dob" name="dob" placeholder="dd/mm/yyyy" pattern="\d{2}/\d{2}/\d{4}" maxlength="10"
-					oninput="validateDate(this)" type="text" required>
+				<input id="dob" name="dob" placeholder="dd/mm/yyyy" pattern="\d{2}/\d{2}/\d{4}" autocomplete="off"
+					maxlength="10" oninput="validateDate(this)" type="text" required>
 			</div>
 			<div class="input-group">
 				<label for="hour" class="no-select">at</label>
-				<input type="text" id="hour" name="hour" placeholder="--:--" oninput="validateTime(this)" maxlength="5"
-					required>
+				<input type="text" id="hour" name="hour" placeholder="--:--" oninput="validateTime(this)"
+					autocomplete="off" maxlength="5" required>
 			</div>
 			<button type="submit" class="btn-submit no-select">Generate your profile</button>
 		</form>

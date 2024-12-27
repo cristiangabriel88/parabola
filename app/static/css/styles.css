@@ -2,23 +2,9 @@
 	user-select: none;
 }
 
-.results-container {
-	background-color: #536570 !important;
-	color: #d4e3ed;
-}
-
 h1 {
 	font-weight: 700;
 	color: #dae7f5;
-}
-
-.results-container {
-	max-width: 600px;
-	margin: 50px auto;
-	background-color: #475058;
-	border-radius: 10px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	overflow: hidden;
 }
 
 h5.card-title,
@@ -83,7 +69,7 @@ body {
 	color: #f5f5f5;
 	height: 100vh;
 	margin: 0;
-	display: flex;
+	/* display: flex; */
 	justify-content: center;
 	align-items: center;
 	background: #0C1223;
@@ -122,7 +108,6 @@ body {
 .input-group label {
 	text-align: center;
 	font-family: 'Helvetica Neue', Arial, sans-serif;
-	/* Centers the text horizontally */
 	display: block;
 	width: 100%;
 }
@@ -148,6 +133,37 @@ body {
 	font-weight: 100;
 	font-size: 1.8rem;
 	line-height: 3.8rem;
+}
+
+/* Style the input suggestions box */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-internal-autofill-selected {
+	background-color: #0C1223 !important;
+	color: #f5f5f5 !important;
+	box-shadow: 0 0 0px 1000px #0C1223 inset !important;
+	border: none;
+}
+
+/* Style the dropdown for autocomplete suggestions */
+input::-webkit-calendar-picker-indicator,
+input::-webkit-input-placeholder {
+	background-color: #0C1223 !important;
+	color: #494d5a !important;
+}
+
+
+/* For modern browsers to target autocomplete dropdown */
+datalist option {
+	background-color: #0C1223 !important;
+	color: #f5f5f5 !important;
+}
+
+/* Handle hovered item in dropdown */
+datalist option:hover {
+	background-color: #0C1223 !important;
+	color: #f5f5f5 !important;
 }
 
 .btn-submit {
@@ -204,7 +220,6 @@ body {
 
 .navbar-nav .nav-item {
 	margin: 0 15px;
-	/* Add some spacing between links */
 }
 
 .navbar {
@@ -217,6 +232,7 @@ body {
 	font-family: 'Helvetica Neue', Arial, sans-serif;
 	font-size: 18px;
 	color: #FFFFFF;
+	font-weight: lighter;
 }
 
 .navbar-nav {
@@ -232,13 +248,13 @@ body {
 .navbar .nav-link {
 	color: #FFFFFF;
 	font-size: 1.2rem;
+	font-weight: lighter;
 	text-decoration: none;
 	transition: color 0.3s ease;
 }
 
 .navbar .nav-link:hover {
 	color: #ece8cf;
-	/* Changes text color on hover to gold */
 }
 
 /********* SCROLL BAR START ***********/
@@ -249,9 +265,7 @@ body {
 
 .autocomplete-list::-webkit-scrollbar-track {
 	background: #0C1223;
-	/* Dark background color */
 	border-radius: 20px;
-	/* Rounded corners for the track */
 }
 
 /* Style the scrollbar thumb (the draggable part) */
@@ -289,4 +303,216 @@ body {
 	/* Thumb color and track color for Firefox */
 }
 
-/********* SCROLL BAR END ***********/
+/************ SCROLL BAR END **************/
+
+/* ******** RESULTS PAGE START *********** */
+
+.results-container {
+	max-width: 600px;
+	margin: 50px auto;
+	background-color: #0C1223;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Profile image container */
+.profile-image-circle {
+	width: 100px;
+	height: 100px;
+	background-color: #152143;
+	border-radius: 50%;
+}
+
+/* Profile image */
+.profile-image {
+	width: 50px;
+	height: 50px;
+}
+
+/* Name styling */
+.name {
+	font-family: 'Averia Serif Libre', serif;
+	font-size: 1.8rem;
+	font-weight: lighter;
+	color: #f5f5f5;
+}
+
+/* Details styling */
+.details {
+	font-family: 'Helvetica Neue', Arial, sans-serif;
+	font-size: 16px;
+	color: #d4e3ed;
+}
+
+/* Edit link styling */
+.edit-link {
+	font-family: 'Helvetica Neue', Arial, sans-serif;
+	font-size: 14px;
+	color: #ece8cf;
+	text-decoration: none;
+}
+
+.edit-link:hover {
+	color: #d4e3ed;
+	text-decoration: underline;
+}
+
+/* Shuffled Card Pack */
+.card-pack {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 15vw;
+	position: relative;
+	perspective: 50vw;
+	cursor: pointer;
+}
+
+.human-card-pack {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 15vw;
+	position: relative;
+	margin-top: 7rem;
+	perspective: 50vw;
+	cursor: pointer;
+}
+
+.card-shuffle {
+	position: absolute;
+	width: 10vw;
+	height: 15vw;
+	background: #2a2e3a;
+	color: #fff;
+	text-align: center;
+	line-height: 15vw;
+	border-radius: 8px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+	transition: transform 0.6s ease;
+}
+
+.card-3 {
+	transform: rotateZ(10deg) translateX(-30px);
+}
+
+.card-2 {
+	transform: rotateZ(-5deg) translateX(5px);
+}
+
+.card-1 {
+	transform: rotateZ(15deg) translateX(35px);
+}
+
+/* Card Pack Hover */
+.card-pack:hover .card-shuffle {
+	transform: rotateZ(0) translateY(-10px);
+}
+
+.card-shuffle img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 8px;
+}
+
+.card-label {
+	position: absolute;
+	bottom: 10px;
+	width: 100%;
+	text-align: center;
+	font-size: 0.8rem;
+	color: #fff;
+	background: #000;
+	padding: 4px 0;
+	border-radius: 0 0 8px 8px;
+}
+
+.card-pack:hover .card-shuffle {
+	transform: rotateZ(0) translateY(-10px);
+}
+
+.fade {
+	opacity: 0;
+	transition: opacity 0.5s ease-in-out;
+}
+
+.fade.show {
+	opacity: 1;
+}
+
+#carouselContainer {
+	z-index: 1000;
+	/* Ensure it appears above other content */
+}
+
+/* Carousel Display */
+.carousel-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 500px;
+	perspective: 1000px;
+}
+
+.carousel-item {
+	/* height: 20vh; */
+}
+
+.carousel-row {
+	display: flex;
+	gap: 20px;
+}
+
+.astro-card {
+	background: #1c2433;
+	border-radius: 10px;
+	text-align: center;
+	padding: 20px;
+	width: 200px;
+	transition: transform 0.4s ease, box-shadow 0.4s ease;
+	position: relative;
+}
+
+.astro-card img {
+	width: 100%;
+	height: auto;
+	border-radius: 10px;
+	margin-bottom: 10px;
+}
+
+.astro-card .card-top {
+	font-size: 1.2rem;
+	color: #ffcc00;
+	margin-bottom: 10px;
+}
+
+.astro-card h4 {
+	margin: 0;
+	font-size: 1.5rem;
+	color: #fff;
+}
+
+.astro-card p {
+	font-size: 1rem;
+	color: #9fa3b1;
+}
+
+.astro-card.focus {
+	transform: scale(1.2);
+	box-shadow: 0 8px 20px rgba(0, 0, 0);
+}
+
+/* Media Query */
+@media (max-width: 768px) {
+	.astro-card {
+		width: 150px;
+	}
+
+	.carousel-row {
+		gap: 10px;
+	}
+}
+
+/* ******** RESULTS PAGE END *********** */

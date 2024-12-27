@@ -1,29 +1,180 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container mt-5">
-	<div class="results-container">
-		<div class="card">
-			<div class="card-body text-center">
-				<h5 class="card-title">Hello, User!</h5>
-				<p class="card-text">Here are your astrological details:</p>
-				<hr>
-				<ul class="list-unstyled">
-					<li><strong>Date of Birth:</strong> {{ dob }}</li>
-					<li><strong>Time of Birth:</strong> {{ hour }}</li>
-					<li><strong>Place of Birth:</strong> {{ city }}, {{ country }}</li>
-				</ul>
-				<hr>
-				<h5>Astrological Details</h5>
-				<ul class="list-unstyled">
-					<li><strong>Sun Sign:</strong> {{ sun_sign }}</li>
-					<li><strong>Rising Sign (Ascendant):</strong> {{ rising_sign }}</li>
-					<li><strong>Ruling Planet:</strong> {{ ruling_planet }}</li>
-				</ul>
+	<div>
+		<!-- <ul class="list-unstyled">
+			<li><strong>Sun Sign:</strong> {{ sun_sign }}</li>
+			<li><strong>Rising Sign (Ascendant):</strong> {{ rising_sign }}</li>
+			<li><strong>Ruling Planet:</strong> {{ ruling_planet }}</li>
+		</ul> -->
+
+		<div class="text-center p-4 mt-8 border-0">
+			<div class="d-flex justify-content-center align-items-center">
+				<div class="profile-image-circle d-flex justify-content-center align-items-center">
+					<img src="/static/images/signs-simbols/libra.png" alt="Astrology Sign"
+						class="img-fluid profile-image">
+				</div>
+			</div>
+			<h2 class="mt-3 name">Alex Beltechi</h2>
+			<p class="mt-2 details">
+				Born {{ dob }} at {{ hour }} in {{ city }}, {{ country }}
+			</p>
+			<a href="#" class="btn btn-link edit-link">Edit details</a>
+		</div>
+
+		<!--! Shuffled ASTRO Card Pack -->
+		<div class="card-pack" id="cardPack">
+
+			<div class="card-shuffle card-3">
+				<img src="{{ url_for('static', filename='images/planets/' + ruling_planet.split('/')[0].lower() + '.jpg') }}"
+					alt="Ruling Planet">
+				<!-- <div class="card-label">Ruling Planet</div> -->
+			</div>
+
+			<div class="card-shuffle card-2">
+				<img src="{{ url_for('static', filename='images/signs/' + rising_sign.lower() + '.jpg') }}"
+					alt="Ascendant">
+				<!-- <div class="card-label">Ascendant</div> -->
+			</div>
+
+			<div class="card-shuffle card-1">
+				<img src="{{ url_for('static', filename='images/signs/' + sun_sign.lower() + '.jpg') }}" alt="Sun Sign">
+				<!-- <div class="card-label">Sun Sign</div> -->
 			</div>
 		</div>
 
-		<!-- Carousel Section -->
-		<div id="carouselExampleIndicators" class="carousel slide mt-4 mb-4" data-bs-ride="carousel">
+		<!-- ASTRO Carousel -->
+		<section class="ftco-section d-none" id="carouselContainer">
+			<div class="container carousel-content">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="featured-carousel owl-carousel">
+							<div class="item">
+								<div class="work">
+									<div class="img d-flex align-items-center justify-content-center">
+										<img src="{{ url_for('static', filename='images/signs/' + sun_sign.lower() + '.jpg') }}"
+											alt="Sun Sign">
+									</div>
+									<div class="text w-100">
+										<span class="cat">Sun sign</span>
+										<h3><a href="#">{{ sun_sign }}</a></h3>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="work">
+									<div class="img d-flex align-items-end justify-content-center">
+										<img src="{{ url_for('static', filename='images/signs/' + rising_sign.lower() + '.jpg') }}"
+											alt="Ascendant">
+									</div>
+									<div class="text w-100">
+										<span class="cat">Ascendant</span>
+										<h3><a href="#">{{ rising_sign }}</a></h3>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="work">
+									<div class="img d-flex align-items-end justify-content-center">
+										<img src="{{ url_for('static', filename='images/planets/' + ruling_planet.split('/')[0].lower() + '.jpg') }}"
+											alt="Ruling Planet">
+									</div>
+									<div class="text w-100">
+										<span class="cat">Ruling planet</span>
+										<h3><a href="#"> {{ ruling_planet }}</a></h3>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="work">
+									<div class="img d-flex align-items-end justify-content-center">
+										<img src="{{ url_for('static', filename='images/planets/' + ruling_planet.split('/')[0].lower() + '.jpg') }}"
+											alt="Ruling Planet">
+									</div>
+									<div class="text w-100">
+										<span class="cat">Another planet</span>
+										<h3><a href="#">{{ ruling_planet }}</a></h3>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="work">
+									<div class="img d-flex align-items-end justify-content-center">
+										<img src="{{ url_for('static', filename='images/planets/' + ruling_planet.split('/')[0].lower() + '.jpg') }}"
+											alt="Ruling Planet">
+									</div>
+									<div class="text w-100">
+										<span class="cat">Yet another planet</span>
+										<h3><a href="#">{{ ruling_planet }}</a></h3>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+
+		<!--! Shuffled HUMAN Card Pack -->
+		<div class="card-pack human-card-pack mt-8" id="cardPack">
+			<div class="card-shuffle card-2">
+				<img src="{{ url_for('static', filename='images/signs/' + rising_sign.lower() + '.jpg') }}"
+					alt="Ascendant">
+				<!-- <div class="card-label">Ascendant</div> -->
+			</div>
+
+			<div class="card-shuffle card-1">
+				<img src="{{ url_for('static', filename='images/signs/' + sun_sign.lower() + '.jpg') }}" alt="Sun Sign">
+				<!-- <div class="card-label">Sun Sign</div> -->
+			</div>
+
+			<div class="card-shuffle card-3">
+				<img src="{{ url_for('static', filename='images/planets/' + ruling_planet.split('/')[0].lower() + '.jpg') }}"
+					alt="Ruling Planet">
+				<!-- <div class="card-label">Ruling Planet</div> -->
+			</div>
+		</div>
+
+		<!-- HUMAN Carousel -->
+		<div class="carousel-container d-none" id="carouselContainer">
+			<div class="carousel-row">
+				<!-- Sun Card -->
+				<div class="astro-card">
+					<div class="card-top">Sun</div>
+					<img src="{{ url_for('static', filename='images/signs/' + sun_sign.lower() + '.jpg') }}" alt="Sun">
+					<div class="card-info">
+						<h4>{{ sun_sign }}</h4>
+						<p>12th House</p>
+					</div>
+				</div>
+
+				<!-- Ascendant Card -->
+				<div class="astro-card focus">
+					<div class="card-top">Ascendant</div>
+					<img src="{{ url_for('static', filename='images/signs/' + rising_sign.lower() + '.jpg') }}"
+						alt="Ascendant">
+					<div class="card-info">
+						<h4>{{ rising_sign }}</h4>
+						<p>1st House</p>
+					</div>
+				</div>
+
+				<!-- Ruling Planet Card -->
+				<div class="astro-card">
+					<div class="card-top">Ruling Planet</div>
+					<img src="{{ url_for('static', filename='images/planets/' + ruling_planet.split('/')[0].lower() + '.jpg') }}"
+						alt="Ruling Planet">
+					<div class="card-info">
+						<h4>{{ ruling_planet }}</h4>
+						<p>10th House</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- <div id="carouselExampleIndicators" class="carousel slide mt-4 mb-4" data-bs-ride="carousel">
 			<div class="carousel-inner">
 				<div class="carousel-item active">
 					<img class="d-block w-100"
@@ -53,24 +204,22 @@
 				</div>
 			</div>
 
-			<!-- Indicators (moved below images) -->
 			<ol class="carousel-indicators">
 				<li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
 				<li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
 				<li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
 			</ol>
 
-			<!-- Controls -->
 			<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
 				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 			</a>
 			<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
 				<span class="carousel-control-next-icon" aria-hidden="true"></span>
 			</a>
-		</div>
+		</div> -->
 	</div>
 	<div class="text-center mt-3">
-		<a href="/home" class="btn btn-primary">Go Back</a>
+		<a href="/home" class="btn-submit no-select">Generate again</a>
 	</div>
 </div>
 {% endblock %}
