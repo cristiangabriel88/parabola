@@ -190,36 +190,3 @@ function validateTime(input) {
 
   input.value = [hours, minutes].filter(Boolean).join(":").slice(0, 5);
 }
-
-// Card pack
-document.addEventListener("DOMContentLoaded", () => {
-  const cardPack = document.querySelector("#cardPack");
-  const carouselContainer = document.querySelector("#carouselContainer");
-
-  // Open carousel on click
-  cardPack.addEventListener("click", () => {
-    cardPack.classList.add("fade"); // Add fade class
-    cardPack.style.opacity = 0; // Set opacity for transition
-    setTimeout(() => {
-      cardPack.style.display = "none"; // Hide the card pack after the fade-out
-      carouselContainer.classList.add("fade", "show"); // Add fade and show class for fade-in
-      carouselContainer.classList.remove("d-none"); // Ensure it's visible
-    }, 500); // Match the CSS transition duration
-  });
-
-  // Close carousel when clicking outside
-  carouselContainer.addEventListener("click", (e) => {
-    // Check if the click is outside the actual content of the carousel
-    if (e.target === carouselContainer) {
-      carouselContainer.classList.remove("show"); // Start fade-out
-      setTimeout(() => {
-        carouselContainer.classList.add("d-none"); // Hide the carousel after fade-out
-        carouselContainer.style.display = "none"; // Ensure display is none
-
-        cardPack.style.display = "flex"; // Show the card pack
-        cardPack.classList.add("fade", "show"); // Add fade and show for fade-in
-        cardPack.style.opacity = 1; // Reset opacity
-      }, 500); // Match the CSS transition duration
-    }
-  });
-});

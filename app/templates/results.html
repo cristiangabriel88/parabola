@@ -5,8 +5,8 @@
 		<div class="text-center p-4 mt-8 border-0 no-select">
 			<div class="d-flex justify-content-center align-items-center">
 				<div class="profile-image-circle d-flex justify-content-center align-items-center">
-					<img src="/static/images/signs-symbols/libra-icon.png" alt="Astrology Sign"
-						class="img-fluid profile-image">
+					<img src="{{ url_for('static', filename='images/signs-icons/' + sun_sign.lower() + '.png') }}"
+						alt="Astrology Sign" class="img-fluid profile-image">
 				</div>
 			</div>
 			<h2 class="mt-3 name">Alex Beltechi</h2>
@@ -134,28 +134,6 @@
 				</div>
 			</div>
 		</section>
-
-		<!--! Shuffled HUMAN Card Pack -->
-		<div class="card-pack human-card-pack mt-8" id="cardPack">
-			<div class="card-shuffle card-2">
-				<img src="{{ url_for('static', filename='images/signs/' + rising_sign.lower() + '.jpg') }}"
-					alt="Ascendant">
-				<!-- <div class="card-label">Ascendant</div> -->
-			</div>
-
-			<div class="card-shuffle card-1">
-				<img src="{{ url_for('static', filename='images/signs/' + sun_sign.lower() + '.jpg') }}" alt="Sun Sign">
-				<!-- <div class="card-label">Sun Sign</div> -->
-			</div>
-
-			<div class="card-shuffle card-3">
-				<img src="{{ url_for('static', filename='images/planets/' + ruling_planet.split('/')[0].lower() + '.jpg') }}"
-					alt="Ruling Planet">
-				<!-- <div class="card-label">Ruling Planet</div> -->
-			</div>
-		</div>
-
-		<!-- HUMAN Carousel -->
 	</div>
 	<div class="text-center mt-3">
 		<a href="/home" class="btn-submit no-select">Generate again</a>
