@@ -150,7 +150,10 @@ def get_element(sign):
     
     for element, signs in elements.items():
         if sign in signs:
+            print(element)
             return element
+        
+    print(element)
     
     return "Unknown"
 
@@ -234,6 +237,7 @@ def calculate():
             "hour": hour,
             "latitude": latitude,
             "longitude": longitude,
+            "element": astrology_details["element"],
             "sun_sign": astrology_details["sun_sign"],
             "rising_sign": astrology_details["rising_sign"],
             "ruling_planet": astrology_details["ruling_planet"],
@@ -256,8 +260,6 @@ def results():
 
     results = session["results"]  # Retrieve results from session without popping
     
-    sun_sign = results["sun_sign"]
-    rising_sign = results["rising_sign"]
     # description = generate_local_description(sun_sign, rising_sign)
     # print(description)
     
@@ -269,6 +271,7 @@ def results():
         sun_sign=results["sun_sign"],
         rising_sign=results["rising_sign"],
         ruling_planet=results["ruling_planet"],
+        element=results["element"],
         # description=description,
     )
     
@@ -283,7 +286,7 @@ def login():
         password = request.form.get("password")
 
         # Simple login validation logic
-        if email == "user" and password == "user":
+        if email == "user@gmail.com" and password == "user":
             return redirect(url_for("main.home"))
         else:
             # Render the login page with an error message if login fails

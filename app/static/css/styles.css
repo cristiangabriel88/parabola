@@ -2,67 +2,48 @@
 	user-select: none;
 }
 
-h1 {
-	font-weight: 700;
-	color: #dae7f5;
+/******** SCROLL BAR START *********/
+/* For WebKit Browsers (Chrome, Edge, Safari) */
+html::-webkit-scrollbar {
+	width: 20px;
+	/* Adjust the width of the scrollbar */
 }
 
-h5.card-title,
-p.card-text {
-	margin-bottom: 10px;
+html::-webkit-scrollbar-track {
+	background: rgb(31, 38, 53);
+	/* Track background color */
+	border-radius: 10px;
+	/* Rounded corners for the track */
 }
 
-ul.list-unstyled {
-	padding-left: 0;
+html::-webkit-scrollbar-thumb {
+	background: rgb(68, 75, 98);
+	/* Thumb color */
+	border-radius: 10px;
+	/* Rounded corners for the thumb */
+	border: 3px solid rgb(31, 38, 53);
+	/* Matches the track for a seamless effect */
 }
 
-
-.card-body {
-	padding: 20px;
-	color: #dae7f5;
-	background-color: #475058;
+html::-webkit-scrollbar-thumb:hover {
+	background: rgb(187, 192, 213);
+	/* Brighter thumb color on hover */
 }
 
-.carousel-inner img {
-	max-height: 300px;
-	object-fit: contain;
+/* For Firefox */
+html {
+	scrollbar-width: inherit;
+	/* Slim scrollbar for Firefox */
+	scrollbar-color: rgb(68, 75, 98) rgb(31, 38, 53);
+	/* Thumb and track colors */
 }
 
-.carousel-indicators li {
-	list-style: none;
-	/* Remove list-style markers */
+/* Ensure scrollbar is always visible */
+body {
+	overflow-y: scroll;
 }
 
-.carousel {
-	margin-top: 20px;
-	margin-bottom: 20px;
-}
-
-/* Move carousel indicators below the image */
-.carousel-indicators {
-	position: static;
-	/* bottom: -20px; */
-	margin-top: 10px;
-	justify-content: center;
-}
-
-.carousel-caption {
-	position: static;
-	/* Default flow after the image */
-	text-align: center;
-	/* Center-align the text */
-	margin-top: 10px;
-	/* Add spacing above the caption */
-}
-
-.carousel-control-prev,
-.carousel-control-next {
-	width: 5%;
-
-}
-
-
-/* //////////// */
+/******** SCROLL BAR END *********/
 
 body {
 	font-family: 'Averia Serif Libre', serif;
@@ -456,10 +437,6 @@ datalist option:hover {
 	perspective: 1000px;
 }
 
-.carousel-item {
-	/* height: 20vh; */
-}
-
 .carousel-row {
 	display: flex;
 	gap: 20px;
@@ -516,3 +493,167 @@ datalist option:hover {
 }
 
 /* ******** RESULTS PAGE END *********** */
+
+/* General Carousel Container */
+#carouselContainer {
+	padding: 0.1rem 0;
+}
+
+/* Card Wrapper */
+.card-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+	margin-bottom: 7rem;
+	margin-top: 1rem;
+	/* Leave space for the floating description */
+}
+
+/* Card Styling */
+.card {
+	background: linear-gradient(to right, rgb(32, 38, 55), rgb(35, 40, 55));
+	border-radius: 15px;
+	color: #fff;
+	text-align: center;
+	/* overflow: hidden; */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	width: 90%;
+	/* Responsive width (relative to container) */
+	max-width: 260px;
+	/* Maximum width to maintain design consistency */
+	aspect-ratio: 2 / 3;
+	/* Ensures consistent height-to-width ratio */
+	margin: 0 auto;
+	border: 0.5px solid;
+	border-color: #404d5a;
+	border-radius: 15px;
+}
+
+.card:hover {
+	transform: translatey(-4px);
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.card-header {
+	text-align: left;
+	padding: 1rem;
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: 10;
+	font-size: 1rem;
+	border-bottom: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.card-header-title {
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: 10;
+	font-size: 1.3rem;
+	color: #ffffff;
+	margin-bottom: 0.1rem;
+}
+
+.card-degree {
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: 5;
+	font-size: 0.8rem;
+	color: rgb(202, 203, 207);
+	margin-bottom: 0.5rem;
+}
+
+.card-title {
+	font-family: 'Averia Serif Libre', serif;
+	font-weight: 10;
+	font-size: 1.3rem;
+	color: #ffffff;
+	margin-bottom: 0.5rem;
+}
+
+.card-subtitle {
+	font-size: 1rem;
+	color: rgb(202, 203, 207);
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+/* Card Image */
+.card-img {
+	padding: 2rem 0;
+}
+
+.card-img img {
+	width: 80%;
+	/* Scales with the card size */
+	max-width: 150px;
+	/* Ensure images don’t grow too large on bigger screens */
+	height: auto;
+	/* Maintain aspect ratio */
+	object-fit: contain;
+	margin: auto;
+}
+
+/* Card Body */
+.card-body {
+	padding: 1rem;
+	text-align: center;
+}
+
+/* Floating Card Description */
+.card-description {
+	position: absolute;
+	bottom: -80px;
+	/* Floats below the card */
+	text-align: center;
+	font-family: Helvetica, Arial, sans-serif;
+	color: #ccc;
+	width: 90%;
+	/* Responsive width (relative to container) */
+	max-width: 260px;
+	margin: 0 auto;
+	margin-left: 0.4rem;
+}
+
+.card-description h4 {
+	font-size: 1rem;
+	text-align: left;
+	color: #ffffff;
+	margin-bottom: 0.5rem;
+}
+
+.card-description p {
+	font-size: 0.9rem;
+	color: rgb(107, 111, 121);
+	text-align: left;
+	line-height: 1.4;
+	margin: 0;
+}
+
+.owl-nav {
+	display: flex !important;
+	/* Ensure nav buttons are always displayed */
+	justify-content: space-between;
+	/* Space the buttons properly */
+	align-items: center;
+	position: absolute;
+	top: 50%;
+	/* Align vertically */
+	width: 100%;
+	transform: translateY(-50%);
+	z-index: 1000;
+}
+
+.owl-nav button {
+	background: rgba(0, 0, 0, 0.5);
+	/* Optional: Add a background to make them visible */
+	border: none;
+	color: #fff;
+	border-radius: 50%;
+	padding: 10px;
+	transition: all 0.3s ease;
+}
+
+.owl-nav button:hover {
+	background: rgba(255, 255, 255, 0.7);
+	color: #000;
+}

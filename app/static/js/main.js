@@ -32,10 +32,10 @@
           items: 2, // 2 cards on medium screens
         },
         1024: {
-          items: 2, // 3 cards on larger screens
+          items: 3, // 3 cards on larger screens
         },
         1440: {
-          items: 3, // 4 cards on very large screens
+          items: 4, // 4 cards on very large screens
         },
       },
     });

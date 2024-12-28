@@ -221,7 +221,7 @@
 .featured-carousel {
 	background: rgb(12, 18, 35);
 	/* Set the background color */
-	padding: 20px 0;
+	padding: 1px 0;
 	/* Add padding to the top and bottom for better spacing */
 	border-radius: 10px;
 	/* Optional: Add rounded corners for a modern look */
