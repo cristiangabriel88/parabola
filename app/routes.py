@@ -29,6 +29,8 @@ def calculate():
         latitude = float(latitude)
         longitude = float(longitude)
         astrology_details = calculate_astrology_details(dob, hour, latitude, longitude)
+        human_design_details = calculate_human_design(dob,hour, latitude, longitude)
+        print(human_design_details)
 
         # Store results in session
         session["results"] = {
@@ -37,10 +39,20 @@ def calculate():
             "hour": hour,
             "latitude": latitude,
             "longitude": longitude,
+            #Astrology fields
             "element": astrology_details["element"],
             "sun_sign": astrology_details["sun_sign"],
             "rising_sign": astrology_details["rising_sign"],
             "ruling_planet": astrology_details["ruling_planet"],
+            # Human Design fields
+            "type": human_design_details["Type"],
+            "strategy": human_design_details["Strategy"],
+            "not_self_theme": human_design_details["Not-Self Theme"],
+            "signature": human_design_details["Signature"],
+            "definition": human_design_details["Definition"],
+            "authority": human_design_details["Authority"],
+            "profile": human_design_details["Profile"],
+            "incarnation_cross": human_design_details["Incarnation Cross"],
         }
 
         # Redirect to results
@@ -64,16 +76,23 @@ def results():
     # print(description)
     
     return render_template(
-        "results.html",
-        city=results["city"],
-        dob=datetime.strptime(results["dob"], "%Y-%m-%d").strftime("%B %d, %Y"),
-        hour=datetime.strptime(results["hour"], "%H:%M").strftime("%I:%M %p"),
-        sun_sign=results["sun_sign"],
-        rising_sign=results["rising_sign"],
-        ruling_planet=results["ruling_planet"],
-        element=results["element"],
-        # description=description,
-    )
+		"results.html",
+		city=results.get("city", "Unknown"),
+		dob=results.get("dob", "Unknown"),
+		hour=results.get("hour", "Unknown"),
+		sun_sign=results.get("sun_sign", "Unknown"),
+		rising_sign=results.get("rising_sign", "Unknown"),
+		ruling_planet=results.get("ruling_planet", "Unknown"),
+		element=results.get("element", "Unknown"),
+		type=results.get("type", "Unknown"),
+		strategy=results.get("strategy", "Unknown"),
+		not_self_theme=results.get("not_self_theme", "Unknown"),
+		signature=results.get("signature", "Unknown"),
+		definition=results.get("definition", "Unknown"),
+		authority=results.get("authority", "Unknown"),
+		profile=results.get("profile", "Unknown"),
+		incarnation_cross=results.get("incarnation_cross", "Unknown"),
+)
     
 @main.route("/")
 def index():

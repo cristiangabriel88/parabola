@@ -68,16 +68,23 @@ document.addEventListener("DOMContentLoaded", async () => {
           inputElement.value = `${suggestion.city}, ${suggestion.state}, ${suggestion.country}`;
           suggestionsBox.innerHTML = ""; // Clear suggestions
           suggestionsBox.style.display = "none"; // Hide the box
-          console.log("Selected Coordinates:", {
-            latitude: suggestion.latitude,
-            longitude: suggestion.longitude,
-          });
 
-          // Add hidden fields for latitude and longitude
+          // Remove existing latitude/longitude inputs (if any)
+          const existingLat = document.querySelector("input[name='latitude']");
+          const existingLng = document.querySelector("input[name='longitude']");
+          if (existingLat) existingLat.remove();
+          if (existingLng) existingLng.remove();
+
+          // Add new hidden fields for latitude and longitude
           form.appendChild(createHiddenInput("latitude", suggestion.latitude));
           form.appendChild(
             createHiddenInput("longitude", suggestion.longitude)
           );
+
+          console.log("Selected Coordinates:", {
+            latitude: suggestion.latitude,
+            longitude: suggestion.longitude,
+          });
         });
 
         suggestionsBox.appendChild(suggestionElement);
@@ -94,6 +101,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     input.value = value;
     return input;
   }
+
+  let suggestionClicked = false;
+  let isLocationValidated = false;
 
   locationInput.addEventListener("input", () => {
     const query = locationInput.value.trim();
@@ -113,8 +123,44 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
+  locationInput.addEventListener("blur", () => {
+    if (suggestionClicked) {
+      suggestionClicked = false; // Reset the flag after a valid click
+      isLocationValidated = true; // Mark as validated
+      return;
+    }
+
+    const query = locationInput.value.trim();
+    const results = searchCities(query);
+
+    // Check if the input matches one of the suggestions
+    const isValid = results.some(
+      (result) =>
+        result.city.toLowerCase() === query.split(",")[0]?.toLowerCase().trim()
+    );
+
+    if (!isValid && query.length > 0) {
+      showModal("Please select a valid location from the suggestions.");
+      locationInput.value = ""; // Clear invalid input
+      isLocationValidated = false; // Reset validation flag
+    } else {
+      isLocationValidated = true; // Mark as validated
+    }
+  });
+
+  // Handle suggestion clicks
+  suggestionsBox.addEventListener("mousedown", () => {
+    suggestionClicked = true; // Set the flag when a suggestion is clicked
+  });
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
+
+    // Prevent submission if location input is invalid
+    if (!isLocationValidated) {
+      showModal("Please select a valid location from the suggestions.");
+      return; // Prevent form submission
+    }
 
     const formData = new FormData(form);
 
@@ -189,4 +235,28 @@ function validateTime(input) {
   if (minutes && parseInt(minutes, 10) > 59) minutes = "59";
 
   input.value = [hours, minutes].filter(Boolean).join(":").slice(0, 5);
+}
+
+function showModal(message) {
+  const modal = document.getElementById("customModal");
+  const modalMessage = document.getElementById("modalMessage");
+  const closeModal = document.getElementById("closeModal");
+
+  // Set the message
+  modalMessage.textContent = message;
+
+  // Display the modal
+  modal.style.display = "flex";
+
+  // Close the modal on button click
+  closeModal.onclick = () => {
+    modal.style.display = "none";
+  };
+
+  // Close the modal when clicking outside the modal content
+  window.onclick = (event) => {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
 }

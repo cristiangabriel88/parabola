@@ -317,19 +317,19 @@ def determine_incarnation_cross(planetary_positions):
 
     return cross_name
 
-#Cristi :
-dob = "1988-01-12"
-birth_time = "15:30"
-latitude = 44.4268  # Bucharest
-longitude = 26.1025  # Bucharest
+# #Cristi :
+# dob = "1988-01-12"
+# birth_time = "15:30"
+# latitude = 44.4268  # Bucharest
+# longitude = 26.1025  # Bucharest
 
-#Alex
-dob = "1988-10-07"
-birth_time = "07:00"
-latitude = 46.66667000  # Beius
-longitude = 22.50000000  # Beius
+# #Alex
+# dob = "1988-10-07"
+# birth_time = "07:00"
+# latitude = 46.66667000  # Beius
+# longitude = 22.50000000  # Beius
 
-human_design = calculate_human_design(dob, birth_time, latitude, longitude)
+# human_design = calculate_human_design(dob, birth_time, latitude, longitude)
 
-for key, value in human_design.items():
-    print(f"{key}: {value}")
+# for key, value in human_design.items():
+#     print(f"{key}: {value}")
