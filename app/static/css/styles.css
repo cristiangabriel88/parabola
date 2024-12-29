@@ -76,7 +76,7 @@ body {
 	background: #0C1223;
 	color: #ccdbe9;
 	width: 100%;
-	max-width: 400px;
+	max-width: 600px;
 	margin: 0 auto;
 }
 
@@ -99,11 +99,18 @@ body {
 	font-size: 1.8rem;
 	line-height: 3.8rem;
 	padding: 10px;
-	width: 100%;
+	min-width: 100%;
+	/* Ensure it starts with at least full container width */
+	width: auto;
+	/* Allow the input to expand dynamically */
 	border: none;
 	outline: none;
 	text-align: center;
 	color: #f5f5f5;
+	overflow-x: auto;
+	/* Allow horizontal scrolling if needed */
+	white-space: nowrap;
+	/* Prevent wrapping */
 }
 
 .input-group input::placeholder {

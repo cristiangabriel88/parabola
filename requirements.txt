@@ -1,4 +1,4 @@
-flask, swisseph, json, pytz, timezonefinder, flask_sqlalchemy, flask_migrate
+flask, pyswisseph, json, pytz, timezonefinder, flask_sqlalchemy, flask_migrate
 
 aiohappyeyeballs==2.4.4
 aiohttp==3.11.11
