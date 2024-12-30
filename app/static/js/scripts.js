@@ -260,3 +260,130 @@ function showModal(message) {
     }
   };
 }
+
+// Load the astrology data JSON file
+async function loadAstroData() {
+  const response = await fetch("/static/data/astrology.json");
+  return await response.json();
+}
+
+// Function to populate and open the detailed carousel
+async function openDetailedCarousel(mainCarouselCards, currentIndex) {
+  const astroData = await loadAstroData();
+  const wrapper = document.getElementById("detailedCarouselContainer");
+  const carouselInner = document.querySelector(".detailedCarousel-inner");
+
+  // Get current card info
+  const currentCard = mainCarouselCards[currentIndex];
+  const { cardType, cardKey } = currentCard;
+
+  // Clear existing carousel items
+  carouselInner.innerHTML = "";
+
+  // Fetch current data
+  const data = astroData[cardType][cardKey];
+  if (!data) {
+    console.error(
+      `No data found for cardType: ${cardType}, cardKey: ${cardKey}`
+    );
+    return;
+  }
+
+  // Create the current detailed carousel content
+  const item = document.createElement("div");
+  item.className = "carousel-item active";
+  item.innerHTML = `
+		<img src="/static/images/${
+      cardType === "elements" ? "elements-large" : `${cardType}-large`
+    }/${cardKey}.png" alt="${data.title}">
+		<div class="detailedCarousel-caption">
+		  <h5>${data.title}</h5>
+		  <p>${data.description}</p>
+		</div>
+	  `;
+  carouselInner.appendChild(item);
+
+  // Update navigation previews
+  updateMiniCards(mainCarouselCards, currentIndex);
+
+  // Show the wrapper
+  wrapper.classList.add("show");
+
+  // Add event listener for the close button
+  document.getElementById("closeDetailedCarousel").onclick = function () {
+    wrapper.classList.remove("show");
+    document.body.style.overflow = ""; // Restore body scroll
+  };
+
+  // Disable body scroll
+  document.body.style.overflow = "hidden";
+}
+
+function updateMiniCards(mainCarouselCards, currentIndex) {
+  const prevIndex =
+    (currentIndex - 1 + mainCarouselCards.length) % mainCarouselCards.length;
+  const nextIndex = (currentIndex + 1) % mainCarouselCards.length;
+
+  // Update previous card mini-card
+  const prevCard = mainCarouselCards[prevIndex];
+  const prevMini = document.querySelector(".detailedCarousel-mini-prev");
+  prevMini.querySelector(".mini-card-img").src = `/static/images/${
+    prevCard.cardType === "elements"
+      ? "elements-large"
+      : `${prevCard.cardType}-large`
+  }/${prevCard.cardKey}.png`;
+  prevMini.querySelector(".mini-card-type").innerText = capitalizeFirstLetter(
+    prevCard.cardType
+  );
+  prevMini.onclick = () => openDetailedCarousel(mainCarouselCards, prevIndex);
+
+  // Update next card mini-card
+  const nextCard = mainCarouselCards[nextIndex];
+  const nextMini = document.querySelector(".detailedCarousel-mini-next");
+  nextMini.querySelector(".mini-card-img").src = `/static/images/${
+    nextCard.cardType === "elements"
+      ? "elements-large"
+      : `${nextCard.cardType}-large`
+  }/${nextCard.cardKey}.png`;
+  nextMini.querySelector(".mini-card-type").innerText = capitalizeFirstLetter(
+    nextCard.cardType
+  );
+  nextMini.onclick = () => openDetailedCarousel(mainCarouselCards, nextIndex);
+}
+
+// Utility function to capitalize the first letter of a string
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// Function to get all cards from the main carousel
+function getMainCarouselCards() {
+  const cards = [];
+  document
+    .querySelectorAll(".featured-carousel .card-wrapper")
+    .forEach((card) => {
+      const cardType = card.getAttribute("data-card-type");
+      const cardKey = card.getAttribute("data-card-key");
+
+      if (cardType && cardKey) {
+        cards.push({ cardType, cardKey });
+      }
+    });
+  return cards;
+}
+
+// Add click listeners to the cards
+document
+  .querySelectorAll(".featured-carousel .card-wrapper")
+  .forEach((card, index) => {
+    card.addEventListener("click", () => {
+      const mainCarouselCards = getMainCarouselCards();
+      openDetailedCarousel(mainCarouselCards, index);
+      console.log(
+        "Card type: " +
+          card.getAttribute("data-card-type") +
+          " Card Key: " +
+          card.getAttribute("data-card-key")
+      );
+    });
+  });

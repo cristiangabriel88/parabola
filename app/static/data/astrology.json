@@ -1,0 +1,234 @@
+{
+	"signs": {
+		"aries": {
+			"title": "Aries - The Pioneer",
+			"description": "Aries is known for its boldness and pioneering spirit. Always ready to take the lead, Aries individuals are dynamic and courageous."
+		},
+		"taurus": {
+			"title": "Taurus - The Builder",
+			"description": "Taurus is grounded and dependable, with a love for beauty and the finer things in life."
+		},
+		"gemini": {
+			"title": "Gemini - The Communicator",
+			"description": "Geminis are curious, adaptable, and excellent communicators, always seeking new knowledge."
+		},
+		"cancer": {
+			"title": "Cancer - The Nurturer",
+			"description": "Cancer individuals are deeply intuitive and nurturing, with strong connections to home and family."
+		},
+		"leo": {
+			"title": "Leo - The Leader",
+			"description": "Leos are bold, charismatic, and natural-born leaders who thrive in the spotlight."
+		},
+		"virgo": {
+			"title": "Virgo - The Perfectionist",
+			"description": "Virgos are analytical and detail-oriented, always striving for excellence."
+		},
+		"libra": {
+			"title": "Libra - The Diplomat of the Zodiac",
+			"description": "Libra, the seventh sign of the zodiac, is ruled by Venus, the planet of beauty, harmony, and love. Represented by the scales, Libra embodies balance, fairness, and a deep desire for equilibrium in all aspects of life. Those born under this sign, between September 23 and October 22, are natural diplomats, often striving to create harmony in relationships, social settings, and within themselves.\n\nLibras are known for their charm, grace, and sociability. They possess a natural ability to connect with others, making them excellent mediators and communicators. Their strong sense of justice drives them to seek fairness and equality, often standing up for the underdog. However, this pursuit of balance can sometimes lead to indecisiveness, as they weigh all sides of an issue before making a decision.\n\nAesthetic sensibility is a hallmark of Libra. They are drawn to beauty, whether in art, fashion, or nature, and they have a keen eye for design and elegance. This appreciation for beauty extends to their relationships, where they seek meaningful, harmonious connections. Libras thrive in partnerships, valuing companionship and collaboration, but they also need to guard against losing their identity in the process.\n\nIntellectually, Libras are sharp and analytical, often seeing solutions that others overlook. They are idealists, envisioning a world where peace and cooperation prevail. However, their people-pleasing tendencies can sometimes make them avoid confrontation, preferring to maintain a calm exterior even in turbulent situations.\n\nUltimately, Libra is a sign of balance, beauty, and connection. With their diplomatic skills, appreciation for harmony, and a heart full of compassion, Libras bring a sense of peace and unity wherever they go, inspiring others with their vision of a fair and beautiful world."
+		},
+		"scorpio": {
+			"title": "Scorpio - The Transformer",
+			"description": "Scorpios are passionate and resourceful, with an unmatched intensity and determination."
+		},
+		"sagittarius": {
+			"title": "Sagittarius - The Explorer",
+			"description": "Sagittarius individuals are adventurous and free-spirited, always seeking new horizons."
+		},
+		"capricorn": {
+			"title": "Capricorn - The Achiever",
+			"description": "Capricorns are disciplined and ambitious, with a strong drive for success and stability."
+		},
+		"aquarius": {
+			"title": "Aquarius - The Visionary",
+			"description": "Aquarius individuals are forward-thinking and innovative, often ahead of their time."
+		},
+		"pisces": {
+			"title": "Pisces - The Dreamer",
+			"description": "Pisces is deeply empathetic and intuitive, with a rich inner world of dreams and creativity."
+		}
+	},
+	"ascendants": {
+		"aries": {
+			"title": "Aries Ascendant - The Bold Initiator",
+			"description": "With Aries rising, you project confidence and a pioneering spirit."
+		},
+		"taurus": {
+			"title": "Taurus Ascendant - The Grounded One",
+			"description": "Taurus rising brings a calm, steady, and grounded demeanor."
+		},
+		"gemini": {
+			"title": "Gemini Ascendant - The Curious Soul",
+			"description": "Gemini rising individuals are lively, curious, and quick-witted."
+		},
+		"cancer": {
+			"title": "Cancer - The Nurturer",
+			"description": "Cancer individuals are deeply intuitive and nurturing, with strong connections to home and family."
+		},
+		"leo": {
+			"title": "Leo - The Leader",
+			"description": "Leos are bold, charismatic, and natural-born leaders who thrive in the spotlight."
+		},
+		"virgo": {
+			"title": "Virgo - The Perfectionist",
+			"description": "Virgos are analytical and detail-oriented, always striving for excellence."
+		},
+		"libra": {
+			"title": "Libra - The Diplomat",
+			"description": "Libra values harmony and balance, with a strong sense of justice and a love for beauty."
+		},
+		"scorpio": {
+			"title": "Scorpio - The Transformer",
+			"description": "Scorpios are passionate and resourceful, with an unmatched intensity and determination."
+		},
+		"sagittarius": {
+			"title": "Sagittarius - The Explorer",
+			"description": "Sagittarius individuals are adventurous and free-spirited, always seeking new horizons."
+		},
+		"capricorn": {
+			"title": "Capricorn - The Achiever",
+			"description": "Capricorns are disciplined and ambitious, with a strong drive for success and stability."
+		},
+		"aquarius": {
+			"title": "Aquarius - The Visionary",
+			"description": "Aquarius individuals are forward-thinking and innovative, often ahead of their time."
+		},
+		"pisces": {
+			"title": "Pisces - The Dreamer",
+			"description": "Pisces is deeply empathetic and intuitive, with a rich inner world of dreams and creativity."
+		}
+	},
+	"planets": {
+		"sun": {
+			"title": "Sun - The Core of Identity",
+			"description": "The Sun represents your core essence, ego, and individuality. It signifies your sense of self and purpose in life."
+		},
+		"moon": {
+			"title": "Moon - The Emotional Self",
+			"description": "The Moon governs emotions, intuition, and the subconscious mind. It reflects how you nurture and feel secure."
+		},
+		"mercury": {
+			"title": "Mercury - The Messenger",
+			"description": "Mercury represents communication, thought processes, and intellectual activities. It rules how you think and express yourself."
+		},
+		"venus": {
+			"title": "Venus - Planet of Love and Beauty",
+			"description": "Venus governs relationships, harmony, and aesthetic values. It reflects your approach to love and pleasure."
+		},
+		"mars": {
+			"title": "Mars - Planet of Action",
+			"description": "Mars represents energy, drive, and determination. It rules how you assert yourself and pursue goals."
+		},
+		"jupiter": {
+			"title": "Jupiter - Planet of Expansion",
+			"description": "Jupiter signifies growth, abundance, and optimism. It represents how you seek meaning and opportunities in life."
+		},
+		"saturn": {
+			"title": "Saturn - Planet of Discipline",
+			"description": "Saturn represents responsibility, structure, and boundaries. It reflects challenges and areas for growth."
+		},
+		"uranus": {
+			"title": "Uranus - Planet of Innovation",
+			"description": "Uranus governs originality, individuality, and change. It reflects your desire for freedom and innovation."
+		},
+		"neptune": {
+			"title": "Neptune - Planet of Dreams",
+			"description": "Neptune rules imagination, spirituality, and intuition. It reflects your connection to higher realms and dreams."
+		},
+		"pluto": {
+			"title": "Pluto - Planet of Transformation",
+			"description": "Pluto represents power, transformation, and rebirth. It reflects deep change and uncovering hidden truths."
+		},
+		"chiron": {
+			"title": "Chiron - The Wounded Healer",
+			"description": "Chiron represents areas of deep healing and inner wounds. It reflects where you transform pain into wisdom."
+		},
+		"northNode": {
+			"title": "North Node - Path of Growth",
+			"description": "The North Node signifies your soul’s purpose and the lessons you are meant to embrace in this lifetime."
+		},
+		"southNode": {
+			"title": "South Node - Past Life Patterns",
+			"description": "The South Node represents your past life experiences and habits you are meant to move away from."
+		},
+		"lilith": {
+			"title": "Black Moon Lilith - The Shadow Self",
+			"description": "Lilith represents raw, primal instincts and suppressed desires. It reflects empowerment and defiance of societal norms."
+		},
+		"partOfFortune": {
+			"title": "Part of Fortune - Point of Luck",
+			"description": "The Part of Fortune represents areas of life where you experience joy and natural abundance."
+		},
+		"vertex": {
+			"title": "Vertex - Fated Encounters",
+			"description": "The Vertex signifies karmic connections and moments of destiny in your life."
+		}
+	},
+	"elements": {
+		"fire": {
+			"title": "Fire - The Element of Energy",
+			"description": "Fire represents passion, energy, and creativity. It fuels ambition, courage, and enthusiasm.",
+			"traits": [
+				"Passionate",
+				"Dynamic",
+				"Visionary",
+				"Spontaneous"
+			],
+			"associatedSigns": [
+				"Aries",
+				"Leo",
+				"Sagittarius"
+			],
+			"image": "/static/images/elements/fire.png"
+		},
+		"earth": {
+			"title": "Earth - The Element of Stability",
+			"description": "Earth represents practicality, stability, and grounding. It is focused on the physical and material world.",
+			"traits": [
+				"Grounded",
+				"Reliable",
+				"Practical",
+				"Resourceful"
+			],
+			"associatedSigns": [
+				"Taurus",
+				"Virgo",
+				"Capricorn"
+			],
+			"image": "/static/images/elements/earth.png"
+		},
+		"air": {
+			"title": "Air - The Element of Intellect",
+			"description": "Air represents intellect, communication, and ideas. It drives curiosity, logic, and social connections.",
+			"traits": [
+				"Intellectual",
+				"Communicative",
+				"Adaptable",
+				"Analytical"
+			],
+			"associatedSigns": [
+				"Gemini",
+				"Libra",
+				"Aquarius"
+			],
+			"image": "/static/images/elements/air.png"
+		},
+		"water": {
+			"title": "Water - The Element of Emotion",
+			"description": "Water represents emotion, intuition, and depth. It governs relationships, empathy, and sensitivity.",
+			"traits": [
+				"Emotional",
+				"Intuitive",
+				"Compassionate",
+				"Deep"
+			],
+			"associatedSigns": [
+				"Cancer",
+				"Scorpio",
+				"Pisces"
+			],
+			"image": "/static/images/elements/water.png"
+		}
+	}
+}

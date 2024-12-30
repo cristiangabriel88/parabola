@@ -47,7 +47,7 @@
 					<div class="col-md-12">
 						<div class="featured-carousel owl-carousel">
 							<!-- Sun Sign Card -->
-							<div class="card-wrapper">
+							<div class="card-wrapper" data-card-type="signs" data-card-key="{{ rising_sign|lower }}">
 								<div class="card">
 									<div class="card-header">
 										<span class="card-header-title">Sun</span>
@@ -69,7 +69,7 @@
 							</div>
 
 							<!-- Element Card -->
-							<div class="card-wrapper">
+							<div class="card-wrapper" data-card-type="elements" data-card-key="{{ element|lower }}">
 								<div class="card">
 									<div class="card-header">
 										<span class="card-header-title">Element</span>
@@ -90,7 +90,8 @@
 							</div>
 
 							<!-- Ruling Planet Card -->
-							<div class="card-wrapper">
+							<div class="card-wrapper" data-card-type="planets"
+								data-card-key="{{ ruling_planet.split('/')[0]|lower }}">
 								<div class="card">
 									<div class="card-header">
 										<span class="card-header-title">Ruling Planet</span>
@@ -111,7 +112,8 @@
 							</div>
 
 							<!-- Ascendant Card -->
-							<div class="card-wrapper">
+							<div class="card-wrapper" data-card-type="ascendants"
+								data-card-key="{{ rising_sign|lower }}">
 								<div class="card">
 									<div class="card-header">
 										<span class="card-header-title">Ascendant</span>
@@ -136,106 +138,51 @@
 			</div>
 		</section>
 
-		<div class="text-center pt-2 border-0">
-			<h2 class="mt-3 category-title">{{type}}</h2>
-			<p class="under-category-title">Human design</p>
+		<!--? Detailed ASTRO CAROUSEL -->
+		<div id="detailedCarouselContainer" class="detailedCarousel-wrapper">
+			<div id="detailedCarousel" class="detailedCarousel-slide">
+				<div class="detailedCarousel-inner"></div>
+
+				<!-- Navigation Mini Cards -->
+				<div class="detailedCarousel-nav no-select">
+					<!-- Previous Card -->
+					<div class="detailedCarousel-control-prev">
+						<div class="detailedCarousel-mini-prev">
+							<img class="mini-card-img" src="" alt="Previous Card">
+							<span class="mini-card-type"></span>
+						</div>
+						<div class="arrow">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32"
+								fill="#A0A0A0">
+								<path
+									d="M15.29 7.71a1 1 0 0 0-1.42 0L9.87 12l2.88 2.88a1 1 0 0 0 1.42-1.42L12.41 12l2.88-2.88a1 1 0 0 0 0-1.41z" />
+							</svg>
+						</div>
+					</div>
+
+					<!-- Next Card -->
+					<div class="detailedCarousel-control-next">
+						<div class="detailedCarousel-mini-next no-select">
+							<img class="mini-card-img" src="" alt="Next Card">
+							<span class="mini-card-type"></span>
+						</div>
+						<div class="arrow no-select">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32"
+								fill="#A0A0A0">
+								<path
+									d="M8.71 16.29a1 1 0 0 0 1.42 0l4-4a1 1 0 0 0 0-1.42l-4-4a1 1 0 1 0-1.42 1.42L11.59 12l-2.88 2.88a1 1 0 0 0 0 1.41z" />
+							</svg>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button id="closeDetailedCarousel" class="detailedCarousel-close">&times;</button>
 		</div>
 
-		<!--* HUMAN DESIGN CAROUSEL -->
-		<section class="ftco-section" id="carouselContainer">
-			<div class="container carousel-content">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="featured-carousel owl-carousel">
-							<!-- Sun Sign Card -->
-							<div class="card-wrapper">
-								<div class="card">
-									<div class="card-header">
-										<span class="card-header-title">Sun</span>
-										<span class="card-degree">14°8'46"</span>
-									</div>
-									<div class="card-img">
-										<img src="{{ url_for('static', filename='images/signs-symbols/' + sun_sign.lower() + '.png') }}"
-											alt="Sun Sign">
-									</div>
-									<div class="card-body">
-										<h3 class="card-title">{{ sun_sign }}</h3>
-										<p class="card-subtitle">12th House</p>
-									</div>
-								</div>
-								<div class="card-description">
-									<h4>Your ego, identity</h4>
-									<p>You are fundamentally oriented towards fairness and justice.</p>
-								</div>
-							</div>
-
-							<!-- Element Card -->
-							<div class="card-wrapper">
-								<div class="card">
-									<div class="card-header">
-										<span class="card-header-title">Element</span>
-									</div>
-									<div class="card-img">
-										<img src="{{ url_for('static', filename='images/elements/' + element.lower() + '.png') }}"
-											alt="Element">
-									</div>
-									<div class="card-body">
-										<h3 class="card-title">{{ element }}</h3>
-										<p class="card-subtitle">Intellectual, Communicative</p>
-									</div>
-								</div>
-								<div class="card-description">
-									<h4>Intellectual, Communicative</h4>
-									<p>You are fundamentally oriented towards fairness and justice.</p>
-								</div>
-							</div>
-
-							<!-- Ruling Planet Card -->
-							<div class="card-wrapper">
-								<div class="card">
-									<div class="card-header">
-										<span class="card-header-title">Ruling Planet</span>
-									</div>
-									<div class="card-img">
-										<img src="{{ url_for('static', filename='images/planets/' + ruling_planet.split('/')[0].lower() + '.png') }}"
-											alt="Ruling Planet">
-									</div>
-									<div class="card-body">
-										<h3 class="card-title">{{ ruling_planet }}</h3>
-										<p class="card-subtitle">Love, Charm, Aesthetic</p>
-									</div>
-								</div>
-								<div class="card-description">
-									<h4>Love, Charm, Aesthetic</h4>
-									<p>I rebel against the things I am familiar with.</p>
-								</div>
-							</div>
-
-							<!-- Ascendant Card -->
-							<div class="card-wrapper">
-								<div class="card">
-									<div class="card-header">
-										<span class="card-header-title">Ascendant</span>
-									</div>
-									<div class="card-img">
-										<img src="{{ url_for('static', filename='images/signs-symbols/' + rising_sign.lower() + '.png') }}"
-											alt="Ascendant">
-									</div>
-									<div class="card-body">
-										<h3 class="card-title">{{ rising_sign }}</h3>
-										<p class="card-subtitle">Your external identity</p>
-									</div>
-								</div>
-								<div class="card-description">
-									<h4>Your external identity</h4>
-									<p>This describes how you project yourself to the world.</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+		<!-- <div class="text-center pt-2 border-0">
+			<h2 class="mt-3 category-title">{{type}}</h2>
+			<p class="under-category-title">Human design</p>
+	 	</div> -->
 
 	</div>
 	<div class="text-center mt-3">
