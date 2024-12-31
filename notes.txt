@@ -1,14 +1,15 @@
 ######### Activate Virtual environment ##########
 
-deactivate  //to deactivate venv
+Recreate the virtual environment locally using:
+
+python -m venv venv
+pip install -r requirements.txt
 
 source venv/Scripts/activate
 flask run
 
-Regenerate Virtual Environment Locally: If needed, other developers can recreate the virtual environment locally using:
+deactivate  //to deactivate venv ( usually after reboot )
 
-python -m venv venv
-pip install -r requirements.txt
 
 #################################################
 
