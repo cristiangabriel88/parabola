@@ -303,20 +303,10 @@
 }
 
 /* Navigation button placement */
-.owl-nav {
-	position: absolute;
-	top: 50%;
-	width: 100%;
-	transform: translateY(-50%);
-	display: flex;
-	justify-content: space-between;
-	pointer-events: none;
-}
-
 .owl-nav .owl-prev,
 .owl-nav .owl-next {
 	pointer-events: all;
-	background-color: #007bff;
+	background-color: #75899e;
 	color: #fff;
 	border: none;
 	border-radius: 50%;
@@ -327,12 +317,46 @@
 	align-items: center;
 	font-size: 18px;
 	cursor: pointer;
-	transition: background-color 0.3s ease;
+	transition: background-color 0.3s ease, box-shadow 0.4s ease, transform 0.3s ease;
+	box-shadow: none;
+	outline: none;
+	/* Remove focus outline */
 }
 
 .owl-nav .owl-prev:hover,
 .owl-nav .owl-next:hover {
-	background-color: #0056b3;
+	background-color: rgb(36, 48, 63);
+	box-shadow: 0 0 10px rgba(36, 48, 63, 0.6);
+	/* Subtle blue glow */
+	transform: scale(1.1);
+	/* Slight enlargement */
+}
+
+.owl-nav .owl-prev:focus,
+.owl-nav .owl-next:focus {
+	outline: none;
+	/* Prevent focus outline */
+	box-shadow: none;
+	/* Prevent glow persisting on focus */
+}
+
+.owl-nav .owl-prev:active,
+.owl-nav .owl-next:active {
+	background-color: rgb(106, 108, 116);
+	/* Slightly darker color on click */
+	transform: scale(1.05);
+	/* Slight scale down for click feedback */
+	box-shadow: none;
+	/* Disable glow during click */
+}
+
+/* Ensure hover glow remains active even after click */
+.owl-nav .owl-prev:focus:hover,
+.owl-nav .owl-next:focus:hover {
+	background-color: #4e5d6d;
+	box-shadow: 0 0 10px rgba(104, 110, 126, 0.5);
+	/* Restore glow on hover */
+	transform: scale(1.1);
 }
 
 .owl-nav .owl-prev {

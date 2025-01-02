@@ -2,6 +2,11 @@
 	user-select: none;
 }
 
+body.carousel-active .navbar {
+	display: none;
+	/* Hide the navbar */
+}
+
 /** Modal Alert (hidden by default) */
 .modal {
 	display: none;
@@ -755,7 +760,7 @@ datalist option:hover {
 	width: 100%;
 	height: 100%;
 	background: rgba(0, 0, 0);
-	z-index: 1050;
+	z-index: 10;
 	display: none;
 	overflow-y: auto;
 }
@@ -770,10 +775,148 @@ datalist option:hover {
 	right: 20px;
 	font-size: 2rem;
 	color: white;
+	background: rgba(255, 255, 255, 0.1);
+	/* Slight transparent background */
 	border: none;
-	background: transparent;
+	/* Remove any border */
+	border-radius: 50%;
+	/* Makes it a perfect circle */
 	cursor: pointer;
+	width: 50px;
+	/* Set width and height to create the circle */
+	height: 50px;
+	display: flex;
+	/* Centers the content */
+	justify-content: center;
+	align-items: center;
+	transition: box-shadow 0.6s ease-in-out, background 0.3s ease-in-out;
+	/* Slower transitions */
 	z-index: 1051;
+	outline: none;
+	/* Remove focus outline */
+}
+
+.detailedCarousel-close:hover {
+	box-shadow: 0 0 18px rgba(255, 255, 255, 0.6);
+	/* Subtle and smoother glow effect */
+	background: rgba(255, 255, 255, 0.1);
+	/* Slightly brighter background on hover */
+}
+
+.detailedCarousel-close:active {
+	box-shadow: none;
+	/* Remove glow effect when clicked */
+	background: rgba(255, 255, 255, 0.1);
+	/* Reset background to default when clicked */
+}
+
+.detailedCarousel-close:focus {
+	outline: none;
+	/* Remove focus outline on click or keyboard navigation */
+}
+
+.detailedCarousel-current-card {
+	position: absolute;
+	/* Position the current card absolutely */
+	top: 250px;
+	/* Center vertically */
+	left: 50%;
+	/* Center horizontally */
+	transform: translate(-50%, -50%);
+	/* Offset the top and left positioning */
+	z-index: 1000;
+	width: 90%;
+	max-width: 260px;
+	aspect-ratio: 2 / 3;
+	text-align: center;
+	border: 0.5px solid;
+	border-color: #404d5a;
+	border-radius: 15px;
+	background: rgba(32, 39, 53, 0.7);
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
+	padding: 20px;
+	transition: transform 1s ease, box-shadow 1s ease, background 1s ease;
+	/* Slow and smooth hover effect */
+}
+
+.detailedCarousel-current-card:hover {
+	box-shadow: 0px 6px 15px rgba(255, 255, 255, 0.1);
+	/* Subtle glow effect */
+	background: rgba(32, 39, 53, 0.8);
+	/* Slightly brighter background */
+	transform: translate(-50%, -50%) scale(1.02);
+	/* Slight enlargement */
+}
+
+/* Ensure the hover effect covers the entire container */
+.detailedCarousel-current-card:hover::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 15px;
+	background: radial-gradient(circle,
+			rgba(255, 255, 255, 0.1) 10%,
+			transparent 60%);
+	pointer-events: none;
+	/* Prevent interference with inner elements */
+	z-index: -1;
+	/* Ensure it stays behind the content */
+	animation: subtlePulse 1.5s infinite;
+	/* Optional gentle pulsing effect */
+}
+
+@keyframes subtlePulse {
+	0% {
+		transform: scale(1);
+		opacity: 0.4;
+	}
+
+	50% {
+		transform: scale(1.05);
+		opacity: 0.6;
+	}
+
+	100% {
+		transform: scale(1);
+		opacity: 0.4;
+	}
+}
+
+.current-card-subtitle {
+	margin-top: 10px;
+	font-size: 1rem;
+	color: #ccc;
+	/* Light gray color for the subtitle */
+	text-align: center;
+}
+
+.detailedCarousel-current-card .current-card {
+	background: rgba(32, 39, 53, 0.7);
+	/* Semi-transparent background */
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.8);
+}
+
+.detailedCarousel-current-card .current-card-title {
+	font-size: 2rem;
+	margin-bottom: 10px;
+}
+
+.detailedCarousel-current-card .current-card-img {
+	width: 100%;
+	max-width: 150px;
+	height: auto;
+	object-fit: contain;
+	margin: auto;
+}
+
+.detailedCarousel-current-card .current-card-description {
+	font-size: 1.2rem;
+	line-height: 1.6;
 }
 
 .detailedCarousel-inner {
@@ -794,14 +937,13 @@ datalist option:hover {
 
 .detailedCarousel-caption {
 	color: white;
-	margin-top: 20px;
-	/* display: flex; */
-	/* justify-content: items-center; */
-	/* align-items: center; */
+	margin-top: 200px;
 	text-align: center;
 	position: absolute;
-	top: 40%;
-	width: 100%;
+	top: 300px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 40%;
 }
 
 .detailedCarousel-caption h5 {
@@ -830,7 +972,7 @@ datalist option:hover {
 	top: 30%;
 	width: 100%;
 	transform: translateY(-50%);
-	z-index: 1051;
+	z-index: 100;
 }
 
 .detailedCarousel-control-prev,
@@ -850,18 +992,21 @@ datalist option:hover {
 
 .detailedCarousel-mini-prev img,
 .detailedCarousel-mini-next img {
-	width: 40px;
-	height: 60px;
-	object-fit: cover;
-	margin-bottom: 5px;
-	border: 2px solid rgba(255, 255, 255, 0.5);
+	width: 60px;
+	height: 80px;
+	margin: 10px;
+	background-color: rgba(32, 39, 53, 0.5);
 	border-radius: 4px;
-	transition: transform 0.3s;
+	transition: transform 0.8s ease, box-shadow 0.8s ease;
+	/* Smooth transitions */
 }
 
 .detailedCarousel-mini-prev:hover img,
 .detailedCarousel-mini-next:hover img {
 	transform: scale(1.1);
+	/* Slight enlargement on hover */
+	box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+	/* Subtle glow on hover */
 }
 
 .detailedCarousel-mini-prev .mini-card-type,
@@ -869,6 +1014,30 @@ datalist option:hover {
 	font-size: 0.8rem;
 	color: gray;
 	text-align: center;
+	transition: color 0.8s ease, transform 0.8s ease;
+	/* Smooth text transitions */
+}
+
+.detailedCarousel-mini-prev:hover .mini-card-type,
+.detailedCarousel-mini-next:hover .mini-card-type {
+	color: white;
+	/* Brighten the text on hover */
+	transform: scale(1.05);
+	/* Slight enlargement */
+}
+
+.detailedCarousel-control-prev .arrow svg,
+.detailedCarousel-control-next .arrow svg {
+	transition: transform 0.8s ease, fill 0.8s ease;
+	/* Smooth arrow transitions */
+}
+
+.detailedCarousel-control-prev:hover .arrow svg,
+.detailedCarousel-control-next:hover .arrow svg {
+	fill: rgba(255, 255, 255, 0.9);
+	/* Brighten the arrow */
+	transform: scale(1.2);
+	/* Slight enlargement */
 }
 
 .detailedCarousel-control-prev {

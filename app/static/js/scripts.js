@@ -306,16 +306,56 @@ async function openDetailedCarousel(mainCarouselCards, currentIndex) {
   // Update navigation previews
   updateMiniCards(mainCarouselCards, currentIndex);
 
+  const currentCardContainer = document.querySelector(
+    ".detailedCarousel-current-card"
+  );
+
+  // Add the card type as a title above the image
+  let titleElement = currentCardContainer.querySelector(".current-card-title");
+  if (!titleElement) {
+    // Create a title element if it doesn't already exist
+    titleElement = document.createElement("h4");
+    titleElement.classList.add("current-card-title");
+    imageElement.insertAdjacentElement("beforebegin", titleElement); // Add title right before the image
+  }
+
+  // Capitalize the first letter of cardType, remove the last character, and set it as the text content
+  const singularCardType =
+    cardType.charAt(0).toUpperCase() + cardType.slice(1, -1);
+  titleElement.textContent = singularCardType;
+
+  // Set the image source
+  const imageElement = currentCardContainer.querySelector(".current-card-img");
+  imageElement.src = `/static/images/${
+    cardType === "elements" ? "elements" : `${cardType}`
+  }/${cardKey}.png`;
+
+  // Add the card key as a subtitle under the image
+  let subtitleElement = currentCardContainer.querySelector(
+    ".current-card-subtitle"
+  );
+  if (!subtitleElement) {
+    // Create a subtitle element if it doesn't already exist
+    subtitleElement = document.createElement("p");
+    subtitleElement.classList.add("current-card-subtitle");
+    imageElement.insertAdjacentElement("afterend", subtitleElement); // Add subtitle right after the image
+  }
+
+  subtitleElement.textContent =
+    cardKey.charAt(0).toUpperCase() + cardKey.slice(1); // Set the card key as the text content with a capital letter at the front
+
   // Show the wrapper
   wrapper.classList.add("show");
 
   // Add event listener for the close button
   document.getElementById("closeDetailedCarousel").onclick = function () {
     wrapper.classList.remove("show");
+    document.body.classList.remove("carousel-active");
     document.body.style.overflow = ""; // Restore body scroll
   };
 
   // Disable body scroll
+  document.body.classList.add("carousel-active");
   document.body.style.overflow = "hidden";
 }
 
@@ -328,9 +368,7 @@ function updateMiniCards(mainCarouselCards, currentIndex) {
   const prevCard = mainCarouselCards[prevIndex];
   const prevMini = document.querySelector(".detailedCarousel-mini-prev");
   prevMini.querySelector(".mini-card-img").src = `/static/images/${
-    prevCard.cardType === "elements"
-      ? "elements-large"
-      : `${prevCard.cardType}-large`
+    prevCard.cardType === "elements" ? "elements" : `${prevCard.cardType}`
   }/${prevCard.cardKey}.png`;
   prevMini.querySelector(".mini-card-type").innerText = capitalizeFirstLetter(
     prevCard.cardType
@@ -341,9 +379,7 @@ function updateMiniCards(mainCarouselCards, currentIndex) {
   const nextCard = mainCarouselCards[nextIndex];
   const nextMini = document.querySelector(".detailedCarousel-mini-next");
   nextMini.querySelector(".mini-card-img").src = `/static/images/${
-    nextCard.cardType === "elements"
-      ? "elements-large"
-      : `${nextCard.cardType}-large`
+    nextCard.cardType === "elements" ? "elements" : `${nextCard.cardType}`
   }/${nextCard.cardKey}.png`;
   nextMini.querySelector(".mini-card-type").innerText = capitalizeFirstLetter(
     nextCard.cardType
@@ -385,5 +421,13 @@ document
           " Card Key: " +
           card.getAttribute("data-card-key")
       );
+    });
+  });
+
+document
+  .querySelectorAll(".owl-nav .owl-prev, .owl-nav .owl-next")
+  .forEach((button) => {
+    button.addEventListener("mouseup", () => {
+      button.blur(); // Remove focus from the button
     });
   });
