@@ -170,6 +170,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
+  const submitButton = document.querySelector(".btn-submit");
+
   // Handle suggestion clicks
   suggestionsBox.addEventListener("mousedown", () => {
     suggestionClicked = true; // Set the flag when a suggestion is clicked
@@ -177,6 +179,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
+
+    submitButton.textContent = "Generating...";
+    submitButton.classList.add("pulsing");
+    submitButton.disabled = true;
 
     // Prevent submission if location input is invalid
     if (!isLocationValidated) {
@@ -303,7 +309,7 @@ async function openDetailedCarousel(mainCarouselCards, currentIndex) {
   carouselInner.innerHTML = "";
 
   // Fetch current data
-  const data = astroData[cardType][cardKey];
+  const data = astroData[cardType]?.[cardKey];
   if (!data) {
     console.error(
       `No data found for cardType: ${cardType}, cardKey: ${cardKey}`
@@ -424,9 +430,17 @@ function getMainCarouselCards() {
       const cardKey = card.getAttribute("data-card-key");
 
       if (cardType && cardKey) {
-        cards.push({ cardType, cardKey });
+        // Check if this card is already in the array
+        const exists = cards.some(
+          (c) => c.cardType === cardType && c.cardKey === cardKey
+        );
+        if (!exists) {
+          cards.push({ cardType, cardKey });
+        }
       }
     });
+
+  console.log("Cards:", cards); // Correctly logs unique cards
   return cards;
 }
 
@@ -436,13 +450,8 @@ document
   .forEach((card, index) => {
     card.addEventListener("click", () => {
       const mainCarouselCards = getMainCarouselCards();
-      openDetailedCarousel(mainCarouselCards, index);
-      console.log(
-        "Card type: " +
-          card.getAttribute("data-card-type") +
-          " Card Key: " +
-          card.getAttribute("data-card-key")
-      );
+      console.log("Clicked index:", index, "Card:", mainCarouselCards[index]); // Debug the index
+      openDetailedCarousel(mainCarouselCards, index); // Ensure correct index is passed
     });
   });
 

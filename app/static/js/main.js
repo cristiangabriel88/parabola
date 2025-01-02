@@ -11,11 +11,12 @@
 
   var carousel = function () {
     $(".featured-carousel").owlCarousel({
-      loop: true,
+      loop: false,
       autoplay: false,
       margin: 5,
       animateOut: "fadeOut",
       animateIn: "fadeIn",
+      startPosition: 0,
       nav: true,
       dots: false,
       autoplayHoverPause: false,
