@@ -23,34 +23,51 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Function to search the JSON data
   function searchCities(query) {
-    const lowerQuery = query.toLowerCase();
-    let matchedCities = [];
+    const normalizedQuery = query
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
 
-    cityData.forEach((country) => {
-      if (country.states) {
-        country.states.forEach((state) => {
-          if (state.cities) {
-            const matchingCities = state.cities
-              .filter((city) => city.name.toLowerCase().includes(lowerQuery))
-              .map((city) => ({
-                city: city.name,
-                state: state.name,
-                country: country.name,
-                latitude: city.latitude,
-                longitude: city.longitude,
-              }));
-
-            matchedCities = matchedCities.concat(matchingCities);
-          }
+    // Filter and process only necessary data
+    return cityData
+      .flatMap((country) => {
+        if (!country.states) return [];
+        return country.states.flatMap((state) => {
+          if (!state.cities) return [];
+          return state.cities
+            .filter((city) =>
+              city.name
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase()
+                .includes(normalizedQuery)
+            )
+            .map((city) => ({
+              city: city.name,
+              state: state.name,
+              country: country.name,
+              latitude: city.latitude,
+              longitude: city.longitude,
+            }));
         });
-      }
-    });
-
-    return matchedCities.sort((a, b) => {
-      const aCityMatch = a.city.toLowerCase().startsWith(lowerQuery) ? 0 : 1;
-      const bCityMatch = b.city.toLowerCase().startsWith(lowerQuery) ? 0 : 1;
-      return aCityMatch - bCityMatch;
-    });
+      })
+      .sort((a, b) => {
+        const aCityMatch = a.city
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase()
+          .startsWith(normalizedQuery)
+          ? 0
+          : 1;
+        const bCityMatch = b.city
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase()
+          .startsWith(normalizedQuery)
+          ? 0
+          : 1;
+        return aCityMatch - bCityMatch;
+      });
   }
 
   function displaySuggestions(suggestions, inputElement, suggestionsBox) {
@@ -105,16 +122,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   let suggestionClicked = false;
   let isLocationValidated = false;
 
+  let debounceTimer;
+
   locationInput.addEventListener("input", () => {
-    const query = locationInput.value.trim();
+    clearTimeout(debounceTimer); // Clear the previous timer
+    debounceTimer = setTimeout(() => {
+      const query = locationInput.value.trim();
 
-    if (query.length < 2) {
-      suggestionsBox.style.display = "none"; // Hide the box if input is too short
-      return;
-    }
+      if (query.length < 2) {
+        suggestionsBox.style.display = "none"; // Hide the box if input is too short
+        return;
+      }
 
-    const results = searchCities(query);
-    displaySuggestions(results, locationInput, suggestionsBox);
+      const results = searchCities(query);
+      displaySuggestions(results, locationInput, suggestionsBox);
+    }, 200); // Wait 200ms before running the search logic
   });
 
   document.addEventListener("click", (event) => {
