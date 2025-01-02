@@ -9,101 +9,161 @@
 	<link href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:wght@400;700&display=swap" rel="stylesheet">
 	<style>
 		body {
-			background: linear-gradient(to left, #1c2433, rgb(61, 71, 103));
+			background: rgb(12, 18, 35);
 			color: #ffffff;
-			font-family: Arial, Helvetica, sans-serif;
+			font-family: 'Averia Serif Libre', serif;
 			height: 100vh;
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			margin: 0;
 		}
 
 		h2 {
-			font-family: 'Averia Serif Libre', serif;
+			font-family: 'Helvetica Neue', Arial, sans-serif;
+			font-size: 1rem;
+			text-align: center;
+			margin-bottom: 0.8rem;
 		}
 
 		.login-box {
-			background: rgb(39, 44, 61);
-			border-radius: 15px;
-			padding: 2rem;
-			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-			width: 100%;
+			text-align: center;
 			max-width: 400px;
+			width: 100%;
+			color: rgb(255, 255, 255);
 		}
 
 		.form-control {
-			background: rgb(33, 37, 54);
+			display: flex;
+			border: none;
+			align-items: center;
+			justify-content: center;
+			background-color: rgb(12, 18, 35);
 			color: #ffffff;
-			border: 1px solid rgb(68, 75, 98);
-			border-radius: 10px;
-			cursor: pointer;
-			transition: transform 0.3s, box-shadow 0.3s;
-		}
-
-		.form-control:hover {
-			box-shadow: 0 5px 10px rgba(187, 192, 213, 0.4);
+			font-size: 1rem;
+			height: 3rem;
+			text-align: center;
 		}
 
 		.form-control:focus {
-			background: rgb(33, 37, 54);
-			color: #ffffff;
-			border-color: rgb(187, 192, 213);
-			box-shadow: 0 0 0 0.2rem rgba(187, 192, 213, 0.25);
-			box-shadow: 0 5px 10px rgba(187, 192, 213, 0.4);
+			outline: none;
+			box-shadow: none;
+			background-color: rgb(12, 18, 35);
+			color: rgb(255, 255, 255);
 		}
 
-		.form-label {
-			color: rgb(187, 192, 213);
+		input::placeholder {
+			color: rgb(255, 255, 255);
+			/* Set placeholder color explicitly */
+			font-size: 1rem;
+		}
+
+		input::-webkit-input-placeholder {
+			/* For Chrome, Safari, Edge */
+			color: rgb(255, 255, 255);
+			font-size: 2rem;
+		}
+
+		input::-moz-placeholder {
+			/* For Firefox */
+			color: rgb(255, 255, 255);
+			font-size: 2rem;
+		}
+
+		input:-ms-input-placeholder {
+			/* For Internet Explorer */
+			color: rgb(255, 255, 255);
+			font-size: 2rem;
+		}
+
+		input::-ms-input-placeholder {
+			/* For Edge Legacy */
+			color: rgb(255, 255, 255);
+			font-size: 2rem;
+		}
+
+		input {
+			background-color: rgb(12, 18, 35);
+			color: rgb(255, 255, 255);
+		}
+
+		input {
+			background-color: rgb(12, 18, 35);
+			color: #ffffff;
+			text-align: center;
+			border: none;
+			font-size: 1.2rem;
+		}
+
+		input::placeholder {
+			color: rgb(149, 153, 167);
+			font-size: 2rem;
+		}
+
+		input:focus {
+			outline: none;
+			box-shadow: none;
+			background-color: rgb(12, 18, 35);
+		}
+
+		input:-webkit-autofill {
+			background-color: rgb(12, 18, 35) !important;
+			-webkit-box-shadow: 0 0 0px 1000px rgb(12, 18, 35) inset !important;
+			-webkit-text-fill-color: #ffffff !important;
+		}
+
+		input:-moz-autofill {
+			background-color: rgb(12, 18, 35) !important;
+			-moz-box-shadow: 0 0 0px 1000px rgb(12, 18, 35) inset !important;
+			-moz-text-fill-color: #ffffff !important;
+		}
+
+		input:-ms-autofill {
+			background-color: rgb(12, 18, 35) !important;
+			-ms-box-shadow: 0 0 0px 1000px rgb(12, 18, 35) inset !important;
+			-ms-text-fill-color: #ffffff !important;
 		}
 
 		.btn-primary {
-			background: #1c2433;
-			font-family: 'Averia Serif Libre', serif;
-			border: none;
+			background: transparent;
 			color: #ffffff;
-			border-radius: 20px;
+			border: none;
+			font-size: 3rem;
 			padding: 0.75rem 1.5rem;
-			margin-top: 20px;
-			font-size: 1.1rem;
-			font-weight: bold;
-			transition: background-color 0.3s, transform 0.3s;
+			transition: all 0.3s ease-in-out;
 		}
-
-		/* button {
-			margin-top: 20px;
-		} */
 
 		.btn-primary:hover {
-			background: rgb(102, 107, 130);
-			transform: scale(1.1);
-			/* Subtle enlarging effect */
-		}
-
-		.alert {
-			background: rgba(187, 0, 0, 0.2);
-			border: 1px solid rgba(187, 0, 0, 0.5);
-			color: #ffffff;
+			color: #636973;
 		}
 	</style>
 </head>
 
-<body>
-	<div class="container login-box">
-		<h2 class="text-center">Parabola</h2>
-		<form action="/login" method="POST">
-			{% if error %}
-			<div class="alert alert-danger text-center">{{ error }}</div>
-			{% endif %}
-			<div class="mb-3">
-				<label for="email" class="form-label">Email</label>
-				<input type="email" class="form-control" id="email" name="email" required>
-			</div>
-			<div class="mb-3">
-				<label for="password" class="form-label">Password</label>
-				<input type="password" class="form-control" id="password" name="password" required>
-			</div>
-			<button type="submit" class="btn btn-primary w-100">Login</button>
-		</form>
+<body class="d-flex flex-column vh-100 justify-content-between">
+	<div class="container text-center mt-5">
+		<h2>Parabola</h2>
+	</div>
+	<div class="d-flex flex-column justify-content-center align-items-center flex-grow-1">
+		<div class="login-box text-center container-fluid">
+			<form action="/login" method="POST" class="d-flex flex-column align-items-center w-100">
+				<div class="mb-4 w-100">
+					<h2>Your email</h2>
+					<input type="text" class="form-control text-center" id="email" name="email" placeholder="email"
+						required>
+				</div>
+				<div class="mb-4 w-100">
+					<h2>Your password</h2>
+					<input type="password" class="form-control text-center" id="password" name="password"
+						placeholder="password" required>
+				</div>
+				<button type="submit" class="btn-primary">Log In</button>
+				{% if error %}
+				<div class="col-12 col-md-8 col-lg-6 mt-3">
+					<p class="text-danger text-center">{{ error }}</p>
+				</div>
+				{% endif %}
+			</form>
+		</div>
 	</div>
 </body>
 

@@ -105,13 +105,26 @@ def login():
         password = request.form.get("password")
 
         # Simple login validation logic
-        if email == "user@gmail.com" and password == "user":
+        if email == "user" and password == "user":
+            session["logged_in"] = True  # Mark the user as logged in
             return redirect(url_for("main.home"))
         else:
             # Render the login page with an error message if login fails
-            return render_template("login.html", error="Invalid login credentials.")
+            return render_template("login.html", error="Invalid login credentials")
     return render_template("login.html")  # Render the login page for GET requests
 
+@main.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("main.login"))
+
+@main.before_app_request
+def require_login():
+    # List routes that do not require authentication
+    allowed_routes = ["main.login", "main.index"]
+    if "logged_in" not in session and request.endpoint not in allowed_routes:
+        return redirect(url_for("main.login"))
+    
 @main.route("/home")
 def home():
     return render_template("landing.html")
