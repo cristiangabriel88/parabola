@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const suggestionsBox = document.getElementById("suggestions");
   const form = document.getElementById("locationForm");
   let cityData = [];
+  let currentSuggestionIndex = -1; // Track highlighted suggestion
+  let manualSelection = false; // Flag to track manual selection
+  let isSubmitting = false; // Prevent modal during form submission
 
   if (!locationInput || !form) {
     console.log("No location input or form found on this page.");
@@ -70,7 +73,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
   }
 
-  function displaySuggestions(suggestions, inputElement, suggestionsBox) {
+  function displaySuggestions(suggestions) {
     suggestionsBox.innerHTML = ""; // Clear previous suggestions
 
     if (suggestions.length > 0) {
@@ -82,26 +85,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         suggestionElement.dataset.longitude = suggestion.longitude;
 
         suggestionElement.addEventListener("click", () => {
-          inputElement.value = `${suggestion.city}, ${suggestion.state}, ${suggestion.country}`;
-          suggestionsBox.innerHTML = ""; // Clear suggestions
-          suggestionsBox.style.display = "none"; // Hide the box
-
-          // Remove existing latitude/longitude inputs (if any)
-          const existingLat = document.querySelector("input[name='latitude']");
-          const existingLng = document.querySelector("input[name='longitude']");
-          if (existingLat) existingLat.remove();
-          if (existingLng) existingLng.remove();
-
-          // Add new hidden fields for latitude and longitude
-          form.appendChild(createHiddenInput("latitude", suggestion.latitude));
-          form.appendChild(
-            createHiddenInput("longitude", suggestion.longitude)
-          );
-
-          console.log("Selected Coordinates:", {
-            latitude: suggestion.latitude,
-            longitude: suggestion.longitude,
-          });
+          handleSuggestionSelection(suggestion);
         });
 
         suggestionsBox.appendChild(suggestionElement);
@@ -109,6 +93,32 @@ document.addEventListener("DOMContentLoaded", async () => {
     } else {
       suggestionsBox.style.display = "none"; // Hide the box if no suggestions
     }
+  }
+
+  function handleSuggestionSelection(suggestion) {
+    locationInput.value = `${suggestion.city}, ${suggestion.state}, ${suggestion.country}`;
+    suggestionsBox.innerHTML = ""; // Clear suggestions
+    suggestionsBox.style.display = "none"; // Hide the box
+    manualSelection = true; // Mark as manually selected
+    isLocationValidated = true; // Validate location field
+
+    // Remove existing latitude/longitude inputs (if any)
+    document
+      .querySelectorAll("input[name='latitude'], input[name='longitude']")
+      .forEach((el) => el.remove());
+
+    // Add new hidden fields for latitude and longitude
+    form.appendChild(createHiddenInput("latitude", suggestion.latitude));
+    form.appendChild(createHiddenInput("longitude", suggestion.longitude));
+
+    console.log("Selected Coordinates:", {
+      latitude: suggestion.latitude,
+      longitude: suggestion.longitude,
+    });
+
+    // Move focus to the next field
+    const nextField = document.getElementById("dob");
+    if (nextField) nextField.focus();
   }
 
   function createHiddenInput(name, value) {
@@ -145,28 +155,50 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  locationInput.addEventListener("blur", () => {
-    if (suggestionClicked) {
-      suggestionClicked = false; // Reset the flag after a valid click
-      isLocationValidated = true; // Mark as validated
-      return;
+  locationInput.addEventListener("keydown", (event) => {
+    const suggestionElements = suggestionsBox.querySelectorAll("div");
+    if (suggestionElements.length > 0) {
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        currentSuggestionIndex =
+          (currentSuggestionIndex + 1) % suggestionElements.length;
+        highlightSuggestion(suggestionElements, currentSuggestionIndex);
+      } else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        currentSuggestionIndex =
+          (currentSuggestionIndex - 1 + suggestionElements.length) %
+          suggestionElements.length;
+        highlightSuggestion(suggestionElements, currentSuggestionIndex);
+      } else if (event.key === "Enter") {
+        event.preventDefault();
+        if (currentSuggestionIndex >= 0) {
+          suggestionElements[currentSuggestionIndex].click(); // Simulate click on suggestion
+        }
+      }
     }
+  });
 
+  function highlightSuggestion(elements, index) {
+    elements.forEach((el, i) =>
+      el.classList.toggle("highlighted", i === index)
+    );
+  }
+
+  locationInput.addEventListener("blur", () => {
+    if (manualSelection) {
+      manualSelection = false; // Reset the flag
+      return; // Skip validation
+    }
     const query = locationInput.value.trim();
     const results = searchCities(query);
-
-    // Check if the input matches one of the suggestions
     const isValid = results.some(
       (result) =>
         result.city.toLowerCase() === query.split(",")[0]?.toLowerCase().trim()
     );
-
     if (!isValid && query.length > 0) {
       showModal("Please select a valid location from the suggestions.");
       locationInput.value = ""; // Clear invalid input
-      isLocationValidated = false; // Reset validation flag
-    } else {
-      isLocationValidated = true; // Mark as validated
+      isLocationValidated = false;
     }
   });
 
@@ -190,8 +222,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       return; // Prevent form submission
     }
 
-    const formData = new FormData(form);
+    isSubmitting = true;
 
+    const formData = new FormData(form);
     // Convert date to ISO format
     const dob = formData.get("dob");
     formData.set("dob", convertDateToISO(dob));
@@ -216,8 +249,33 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     } catch (error) {
       console.error("Error submitting form:", error);
+    } finally {
+      isSubmitting = false; // Reset submission flag
     }
   });
+
+  let modalActive = false;
+
+  function showModal(message) {
+    const modal = document.getElementById("customModal");
+    const modalMessage = document.getElementById("modalMessage");
+    const closeModal = document.getElementById("closeModal");
+
+    modalMessage.textContent = message;
+    modal.style.display = "flex";
+
+    closeModal.onclick = () => {
+      modal.style.display = "none";
+      locationInput.focus(); // Refocus the input field
+    };
+
+    window.onclick = (event) => {
+      if (event.target === modal) {
+        modal.style.display = "none";
+        locationInput.focus(); // Refocus the input field
+      }
+    };
+  }
 });
 
 function convertDateToISO(dateStr) {
@@ -263,30 +321,6 @@ function validateTime(input) {
   if (minutes && parseInt(minutes, 10) > 59) minutes = "59";
 
   input.value = [hours, minutes].filter(Boolean).join(":").slice(0, 5);
-}
-
-function showModal(message) {
-  const modal = document.getElementById("customModal");
-  const modalMessage = document.getElementById("modalMessage");
-  const closeModal = document.getElementById("closeModal");
-
-  // Set the message
-  modalMessage.textContent = message;
-
-  // Display the modal
-  modal.style.display = "flex";
-
-  // Close the modal on button click
-  closeModal.onclick = () => {
-    modal.style.display = "none";
-  };
-
-  // Close the modal when clicking outside the modal content
-  window.onclick = (event) => {
-    if (event.target === modal) {
-      modal.style.display = "none";
-    }
-  };
 }
 
 // Load the astrology data JSON file

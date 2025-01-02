@@ -7,6 +7,13 @@ body.carousel-active .navbar {
 	/* Hide the navbar */
 }
 
+.highlighted {
+	background-color: #e0e0e0;
+	/* Highlight color */
+	color: #000;
+	/* Text color */
+}
+
 /** Modal Alert (hidden by default) */
 .modal {
 	display: none;
@@ -39,8 +46,7 @@ body.carousel-active .navbar {
 /* Modal button */
 .modal-content button {
 	font-family: 'Averia Serif Libre', serif;
-	background-color: #404d5a;
-	/* Button background color */
+	background-color: rgb(12, 18, 35);
 	color: #f5f5f5;
 	border: none;
 	border-radius: 5px;
@@ -108,7 +114,7 @@ body.carousel-active .navbar {
 }
 
 .modal-content button:hover {
-	background-color: #5a6473;
+	/* background-color: #5a6473; */
 	transform: translateY(-2px);
 	box-shadow: 0 0 15px rgba(90, 100, 115, 0.8), 0 0 30px rgba(90, 100, 115, 0.6);
 	/* Glow effect with shadow */
@@ -118,6 +124,11 @@ body.carousel-active .navbar {
 .modal-content button:focus {
 	box-shadow: 0 0 15px rgba(90, 100, 115, 0.8), 0 0 30px rgba(90, 100, 115, 0.6);
 	outline: none;
+}
+
+modal-button {
+	background-color: rgb(12, 18, 35);
+	color: rgb(12, 18, 35);
 }
 
 /******** SCROLL BAR START *********/
