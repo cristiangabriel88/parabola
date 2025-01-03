@@ -11,7 +11,10 @@
 			</div>
 			<h2 class="mt-3 name">Alex Beltechi</h2>
 			<p class="mt-2 details">
-				Born {{ dob }} at {{ hour }} in {{ city }}, {{ country }}
+				Born {{ dob }} at {{ hour }} in
+				{% if city %}{{ city }}{% if state or country %}, {% endif %}{% endif %}
+				{% if state %}{{ state }}{% if country %}, {% endif %}{% endif %}
+				{% if country %}{{ country }}{% endif %}
 			</p>
 			<a href="#" class="btn-link edit-link">Edit details</a>
 		</div>
@@ -51,7 +54,7 @@
 								<div class="card">
 									<div class="card-header">
 										<span class="card-header-title">Sun</span>
-										<span class="card-degree">14°8'46"</span>
+										<span class="card-degree">{{ sun_position_dms }}</span>
 									</div>
 									<div class="card-img">
 										<img src="{{ url_for('static', filename='images/signs-symbols/' + sun_sign.lower() + '.png') }}"
@@ -59,7 +62,7 @@
 									</div>
 									<div class="card-body">
 										<h3 class="card-title">{{ sun_sign }}</h3>
-										<p class="card-subtitle">12th House</p>
+										<p class="card-subtitle">{{ sun_house_title }}</p>
 									</div>
 								</div>
 								<div class="card-description">
@@ -117,6 +120,7 @@
 								<div class="card">
 									<div class="card-header">
 										<span class="card-header-title">Ascendant</span>
+										<span class="card-degree">{{ ascendant_position_dms }}</span>
 									</div>
 									<div class="card-img">
 										<img src="{{ url_for('static', filename='images/signs-symbols/' + rising_sign.lower() + '.png') }}"
@@ -130,6 +134,34 @@
 								<div class="card-description">
 									<h4>Your external identity</h4>
 									<p>This describes how you project yourself to the world.</p>
+								</div>
+							</div>
+
+							<!-- Sun's House Card -->
+							<div class="card-wrapper" data-card-type="houses" data-card-key="sun-house">
+								<div class="card">
+									<div class="card-header">
+										<span class="card-header-title">House</span>
+										<span class="card-degree">{{ sun_house_degree }}°</span>
+									</div>
+									<div class="card-body">
+										<h3 class="card-title">{{ sun_house_title }}</h3>
+										<p class="card-subtitle">{{ sun_house_description }}</p>
+									</div>
+								</div>
+							</div>
+
+							<!-- Ascendant's House Card -->
+							<div class="card-wrapper" data-card-type="houses" data-card-key="ascendant-house">
+								<div class="card">
+									<div class="card-header">
+										<span class="card-header-title">Ascendant House</span>
+										<span class="card-degree">{{ ascendant_house_degree }}°</span>
+									</div>
+									<div class="card-body">
+										<h3 class="card-title">{{ ascendant_house_title }}</h3>
+										<p class="card-subtitle">{{ ascendant_house_description }}</p>
+									</div>
 								</div>
 							</div>
 						</div>

@@ -345,10 +345,21 @@ function validateDate(input) {
   let month = parts[1];
   let year = parts[2];
 
+  // Validate day
   if (day && parseInt(day, 10) > 31) day = "31";
-  if (month && parseInt(month, 10) > 12) month = "12";
-  if (year && parseInt(year, 10) > 2999) year = "2999";
 
+  // Validate month
+  if (month && parseInt(month, 10) > 12) month = "12";
+
+  // Validate year
+  if (year) {
+    year = parseInt(year, 10);
+    if (year === 0) year = 1; // Set minimum year to 0001
+    if (year > 2999) year = 2999; // Set maximum year to 2999
+    year = year.toString().padStart(4, "0"); // Ensure the year is 4 digits
+  }
+
+  // Update the input value with the corrected date
   input.value = [day, month, year].filter(Boolean).join("/").slice(0, 10);
 }
 

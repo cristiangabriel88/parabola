@@ -165,6 +165,18 @@
 			"description": "The Vertex signifies karmic connections and moments of destiny in your life."
 		}
 	},
+	"houses": {
+		"sun-house": {
+			"title": "Sun's House",
+			"description": "The house where your Sun resides represents your core identity and life focus.",
+			"image": "sun-house.png"
+		},
+		"ascendant-house": {
+			"title": "Ascendant's House",
+			"description": "The house of your Ascendant reflects how you present yourself to the world.",
+			"image": "ascendant-house.png"
+		}
+	},
 	"elements": {
 		"fire": {
 			"title": "Fire - The Element of Energy",

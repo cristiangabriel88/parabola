@@ -2,6 +2,26 @@ import swisseph as swe
 from pytz import timezone, utc
 from timezonefinder import TimezoneFinder
 from datetime import datetime
+import json
+import os
+
+def convert_to_dms(decimal_degrees):
+    """
+    Convert a decimal degree value to degrees, minutes, and seconds.
+
+    Args:
+        decimal_degrees (float): The position in decimal degrees.
+
+    Returns:
+        str: The position formatted as "X°Y'Z"".
+    """
+    print(f"Converting to DMS: {decimal_degrees}")
+    degrees = int(decimal_degrees)  # Get the whole number part (degrees)
+    remainder = abs(decimal_degrees - degrees) * 60  # Calculate the remainder in minutes
+    minutes = int(remainder)  # Get the whole number part (minutes)
+    seconds = int((remainder - minutes) * 60)  # Calculate the remaining fraction as seconds
+
+    return f"{degrees}°{minutes}'{seconds}\""
 
 def validate_date(date_string):
     try:
@@ -150,11 +170,51 @@ def get_element(sign):
     
     return "Unknown"
 
+def determine_house(longitude, house_cusps):
+    """
+    Determine which house a celestial body is in based on its longitude
+    and calculate the degree within the house.
+    """
+    for i in range(len(house_cusps) - 1):
+        if house_cusps[i] <= longitude < house_cusps[i + 1]:
+            house_number = i + 1
+            degree_in_house = longitude - house_cusps[i]
+            return house_number, degree_in_house
+    if longitude >= house_cusps[-1]:
+        house_number = 12
+        degree_in_house = longitude - house_cusps[-1]
+    else:
+        house_number = 1
+        degree_in_house = longitude + (360 - house_cusps[-1])
+    return house_number, degree_in_house
+
+
+def get_house_info(house_number):
+    """
+    Get house title and description from the houses.json file.
+    """
+    try:
+        # Construct the path to the houses.json file
+        base_dir = os.path.dirname(os.path.abspath(__file__))  # Directory of the current script
+        file_path = os.path.join(base_dir, "static", "data", "houses.json")
+        
+        # Load the JSON file
+        with open(file_path, "r") as file:
+            houses_json = json.load(file)
+        
+        # Retrieve the house data
+        house_data = houses_json.get(str(house_number), {})
+        return house_data.get("title", "Unknown House"), house_data.get("description", "No description available.")
+    
+    except FileNotFoundError:
+        raise FileNotFoundError(f"The file houses.json was not found at {file_path}.")
+    except json.JSONDecodeError:
+        raise ValueError("Error decoding the houses.json file.")
+
+
 # ? ASTROLOGY DETAILS
 def calculate_astrology_details(dob, birth_time, latitude, longitude):
     try:
-        # Convert from DD/MM/YYYY to YYYY-MM-DD
-        # dob_converted = datetime.strptime(dob, "%d/%m/%Y").strftime("%Y-%m-%d")
         
         # Combine date and time of birth into a single datetime object
         birth_datetime = datetime.strptime(f"{dob} {birth_time}", "%Y-%m-%d %H:%M")
@@ -170,16 +230,27 @@ def calculate_astrology_details(dob, birth_time, latitude, longitude):
 
         # Calculate Sun Sign
         sun_position, _ = swe.calc_ut(julian_day, swe.SUN)
+        print(f"Sun Position (decimal degrees): {sun_position[0]}")
         sun_sign = get_astrological_sign(sun_position[0])
+        sun_position_dms = convert_to_dms(sun_position[0])  # Format Sun's degree as DMS
 
         # Calculate Ascendant
         ascendant_sign, ascendant_degree = calculate_ascendant(dob, birth_time, latitude, longitude)
+        ascendant_position_dms = convert_to_dms(ascendant_degree)  # Format Ascendant's degree as DMS
         
 		# Calculate Element
         element = get_element(sun_sign)
 
         # Calculate Houses
         house_cusps, _ = swe.houses(julian_day, latitude, longitude, b'P')  # Placidus house system
+        
+		# Determine the Sun and Ascendant houses with degrees
+        sun_house, sun_house_degree = determine_house(sun_position[0], house_cusps)
+        ascendant_house, ascendant_house_degree = determine_house(ascendant_degree, house_cusps)
+
+        # Get details for the significant houses
+        sun_house_title, sun_house_description = get_house_info(sun_house)
+        ascendant_house_title, ascendant_house_description = get_house_info(ascendant_house)
 
         # Calculate ruling planet
         ruling_planets = {
@@ -192,11 +263,23 @@ def calculate_astrology_details(dob, birth_time, latitude, longitude):
 
         return {
             "sun_sign": sun_sign,
+            "sun_position_dms": sun_position_dms,
             "rising_sign": ascendant_sign,
+            "ascendant_position_dms": ascendant_position_dms,
             "ascendant_degree": ascendant_degree,
             "ruling_planet": ruling_planet,
             "element": element,
-            "houses": {f"House {i+1}": cusp for i, cusp in enumerate(house_cusps)}
+            "houses": {f"House {i+1}": cusp for i, cusp in enumerate(house_cusps)},
+            "sun_house": {
+                "title": sun_house_title,
+                "description": sun_house_description,
+                "degree": round(sun_house_degree, 2),
+            },
+            "ascendant_house": {
+                "title": ascendant_house_title,
+                "description": ascendant_house_description,
+                "degree": round(ascendant_house_degree, 2),
+            }
         }
     except Exception as e:
         raise ValueError(f"Error calculating astrology details: {e}")

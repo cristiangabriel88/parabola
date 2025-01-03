@@ -1,0 +1,50 @@
+{
+	"1": {
+		"title": "First House - The Self",
+		"description": "The First House represents your identity, physical appearance, and how you present yourself to the world. It reflects your outward personality, how others perceive you, and your approach to new beginnings."
+	},
+	"2": {
+		"title": "Second House - Values and Possessions",
+		"description": "The Second House governs your personal values, financial resources, and material possessions. It reflects how you build security, manage resources, and develop self-worth and stability in life."
+	},
+	"3": {
+		"title": "Third House - Communication",
+		"description": "The Third House is about communication, thinking, and learning. It covers early education, relationships with siblings, and short trips. It reflects your curiosity, intellect, and the way you share ideas."
+	},
+	"4": {
+		"title": "Fourth House - Home and Family",
+		"description": "The Fourth House represents your home, family, and roots. It reflects your emotional foundation, your connection to your ancestry, and your sense of belonging and security within your private life."
+	},
+	"5": {
+		"title": "Fifth House - Creativity and Pleasure",
+		"description": "The Fifth House is about creativity, self-expression, and pleasure. It governs romance, children, hobbies, and all forms of joy and artistic endeavors. It reflects how you celebrate life and explore your passions."
+	},
+	"6": {
+		"title": "Sixth House - Health and Service",
+		"description": "The Sixth House governs health, daily routines, and service. It reflects your approach to work, responsibilities, and self-care, as well as your relationship with coworkers and the way you contribute to society."
+	},
+	"7": {
+		"title": "Seventh House - Relationships and Partnerships",
+		"description": "The Seventh House represents one-on-one relationships, including marriage, business partnerships, and close friendships. It reflects how you seek balance, collaboration, and harmony in your connections."
+	},
+	"8": {
+		"title": "Eighth House - Transformation and Shared Resources",
+		"description": "The Eighth House is about transformation, intimacy, and shared resources. It governs themes like inheritance, joint finances, and deep psychological change, as well as birth, death, and rebirth cycles."
+	},
+	"9": {
+		"title": "Ninth House - Exploration and Philosophy",
+		"description": "The Ninth House represents higher learning, travel, and philosophy. It reflects your desire to explore the world, seek knowledge, and develop your beliefs, ethics, and understanding of the universe."
+	},
+	"10": {
+		"title": "Tenth House - Career and Public Life",
+		"description": "The Tenth House governs your career, public reputation, and ambitions. It reflects your professional goals, social status, and legacy, as well as your relationship with authority figures and societal roles."
+	},
+	"11": {
+		"title": "Eleventh House - Community and Future Goals",
+		"description": "The Eleventh House represents friendships, groups, and collective goals. It reflects your connection to your community, your hopes and dreams for the future, and how you contribute to larger causes."
+	},
+	"12": {
+		"title": "Twelfth House - The Subconscious and Spirituality",
+		"description": "The Twelfth House represents the hidden aspects of life, including spirituality, introspection, and dreams. It governs subconscious patterns, healing, and solitude, as well as your connection to the divine."
+	}
+}
