@@ -8,18 +8,18 @@
 			<div class="input-group">
 				<label for="location" class="no-select">I was born in</label>
 				<input type="text" id="location" name="city_coordinates" placeholder="place of birth" autocomplete="off"
-					required>
+					title="Type the city name" required>
 				<div id="suggestions" class="autocomplete-list"></div>
 			</div>
 			<div class="input-group">
 				<label for="dob" class="no-select">on</label>
 				<input id="dob" name="dob" placeholder="dd/mm/yyyy" pattern="\d{2}/\d{2}/\d{4}" autocomplete="off"
-					maxlength="10" oninput="validateDate(this)" type="text" required>
+					maxlength="10" oninput="validateDate(this)" type="text" title="Type birth date" required>
 			</div>
 			<div class="input-group">
 				<label for="hour" class="no-select">at</label>
 				<input type="text" id="hour" name="hour" placeholder="--:--" oninput="validateTime(this)"
-					autocomplete="off" maxlength="5" required>
+					autocomplete="off" maxlength="5" title="Type birth time" required>
 			</div>
 			<button type="submit" class="btn-submit no-select">Generate your profile</button>
 		</form>

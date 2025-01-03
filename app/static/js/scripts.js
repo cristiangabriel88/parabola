@@ -84,7 +84,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         suggestionElement.dataset.latitude = suggestion.latitude;
         suggestionElement.dataset.longitude = suggestion.longitude;
 
-        suggestionElement.addEventListener("click", () => {
+        suggestionElement.addEventListener("mousedown", (event) => {
+          event.preventDefault(); // Prevent the blur event from clearing the field
           handleSuggestionSelection(suggestion);
         });
 
@@ -96,11 +97,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function handleSuggestionSelection(suggestion) {
+    manualSelection = true; // Set the flag for manual selection
+    isLocationValidated = true; // Mark as validated
+
     locationInput.value = `${suggestion.city}, ${suggestion.state}, ${suggestion.country}`;
     suggestionsBox.innerHTML = ""; // Clear suggestions
-    suggestionsBox.style.display = "none"; // Hide the box
-    manualSelection = true; // Mark as manually selected
-    isLocationValidated = true; // Validate location field
+    suggestionsBox.style.display = "none"; // Hide the suggestions box
 
     // Remove existing latitude/longitude inputs (if any)
     document
@@ -160,45 +162,66 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (suggestionElements.length > 0) {
       if (event.key === "ArrowDown") {
         event.preventDefault();
-        currentSuggestionIndex =
-          (currentSuggestionIndex + 1) % suggestionElements.length;
-        highlightSuggestion(suggestionElements, currentSuggestionIndex);
+        if (currentSuggestionIndex < suggestionElements.length - 1) {
+          currentSuggestionIndex++;
+          highlightSuggestion(suggestionElements, currentSuggestionIndex);
+        }
       } else if (event.key === "ArrowUp") {
         event.preventDefault();
-        currentSuggestionIndex =
-          (currentSuggestionIndex - 1 + suggestionElements.length) %
-          suggestionElements.length;
-        highlightSuggestion(suggestionElements, currentSuggestionIndex);
+        if (currentSuggestionIndex > 0) {
+          currentSuggestionIndex--;
+          highlightSuggestion(suggestionElements, currentSuggestionIndex);
+        }
       } else if (event.key === "Enter") {
         event.preventDefault();
         if (currentSuggestionIndex >= 0) {
-          suggestionElements[currentSuggestionIndex].click(); // Simulate click on suggestion
+          const selectedSuggestion = suggestionElements[currentSuggestionIndex];
+          const suggestion = {
+            city: selectedSuggestion.textContent.split(",")[0].trim(),
+            state: selectedSuggestion.textContent.split(",")[1].trim(),
+            country: selectedSuggestion.textContent.split(",")[2].trim(),
+            latitude: selectedSuggestion.dataset.latitude,
+            longitude: selectedSuggestion.dataset.longitude,
+          };
+          handleSuggestionSelection(suggestion);
         }
       }
     }
   });
 
   function highlightSuggestion(elements, index) {
-    elements.forEach((el, i) =>
-      el.classList.toggle("highlighted", i === index)
-    );
+    elements.forEach((el, i) => {
+      el.classList.toggle("highlighted", i === index);
+      if (i === index) {
+        el.scrollIntoView({
+          block: "nearest",
+          inline: "nearest",
+        });
+      }
+    });
   }
 
   locationInput.addEventListener("blur", () => {
+    // If a suggestion was manually selected, skip validation
     if (manualSelection) {
       manualSelection = false; // Reset the flag
-      return; // Skip validation
+      return; // Skip further validation
     }
+
     const query = locationInput.value.trim();
     const results = searchCities(query);
+
     const isValid = results.some(
       (result) =>
         result.city.toLowerCase() === query.split(",")[0]?.toLowerCase().trim()
     );
+
     if (!isValid && query.length > 0) {
       showModal("Please select a valid location from the suggestions.");
       locationInput.value = ""; // Clear invalid input
       isLocationValidated = false;
+    } else {
+      isLocationValidated = true; // Mark as valid if input matches a suggestion
     }
   });
 
@@ -212,13 +235,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   form.addEventListener("submit", async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
 
+    const timeInput = document.getElementById("hour");
+    if (timeInput && timeInput.value.length === 2) {
+      timeInput.value += ":00"; // Append default minutes if missing
+    }
+
     submitButton.textContent = "Generating...";
     submitButton.classList.add("pulsing");
     submitButton.disabled = true;
 
     // Prevent submission if location input is invalid
     if (!isLocationValidated) {
-      showModal("Please select a valid location from the suggestions.");
+      showModal("Please select a valid location from the suggestions");
       return; // Prevent form submission
     }
 
@@ -261,20 +289,38 @@ document.addEventListener("DOMContentLoaded", async () => {
     const modalMessage = document.getElementById("modalMessage");
     const closeModal = document.getElementById("closeModal");
 
+    // Set the modal message
     modalMessage.textContent = message;
+
+    // Display the modal
     modal.style.display = "flex";
 
-    closeModal.onclick = () => {
+    // Ensure focus is on the "OK" button
+    setTimeout(() => closeModal.focus(), 0);
+
+    // Function to close the modal and refocus on the location input
+    const closeModalHandler = () => {
       modal.style.display = "none";
-      locationInput.focus(); // Refocus the input field
+      locationInput.focus(); // Refocus on the location input
     };
 
+    // Close the modal when the "OK" button is clicked
+    closeModal.onclick = closeModalHandler;
+
+    // Close the modal when clicking outside the modal content
     window.onclick = (event) => {
       if (event.target === modal) {
-        modal.style.display = "none";
-        locationInput.focus(); // Refocus the input field
+        closeModalHandler();
       }
     };
+
+    // Close the modal on "Enter" key press
+    closeModal.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        closeModalHandler();
+      }
+    });
   }
 });
 
