@@ -39,7 +39,33 @@
           items: 4, // 4 cards on very large screens
         },
       },
+      onInitialized: updateNavButtons, // Add this
+      onChanged: updateNavButtons, // Add this
     });
+
+    // Function to hide/show navigation arrows
+    function updateNavButtons(event) {
+      var currentIndex = event.item.index; // Current position
+      var itemCount = event.item.count; // Total items
+
+      // Get navigation buttons
+      var prevButton = $(".featured-carousel .owl-prev");
+      var nextButton = $(".featured-carousel .owl-next");
+
+      // Hide/show previous button
+      if (currentIndex === 0) {
+        prevButton.hide(); // Hide at the start
+      } else {
+        prevButton.show(); // Show otherwise
+      }
+
+      // Hide/show next button
+      if (currentIndex + event.page.size >= itemCount) {
+        nextButton.hide(); // Hide at the end
+      } else {
+        nextButton.show(); // Show otherwise
+      }
+    }
   };
   carousel();
 })(jQuery);

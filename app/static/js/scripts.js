@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   let currentSuggestionIndex = -1; // Track highlighted suggestion
   let manualSelection = false; // Flag to track manual selection
   let isSubmitting = false; // Prevent modal during form submission
+  let isMouseDownOnCard = false; // Track if mouse is down on a card
+  let mouseDownCardIndex = -1; // Track the index of the card where the mouse was pressed down
 
   if (!locationInput || !form) {
     console.log("No location input or form found on this page.");
@@ -539,10 +541,39 @@ function getMainCarouselCards() {
 document
   .querySelectorAll(".featured-carousel .card-wrapper")
   .forEach((card, index) => {
-    card.addEventListener("click", () => {
-      const mainCarouselCards = getMainCarouselCards();
-      console.log("Clicked index:", index, "Card:", mainCarouselCards[index]); // Debug the index
-      openDetailedCarousel(mainCarouselCards, index); // Ensure correct index is passed
+    let clickTimeout; // To store the timeout ID
+
+    // Mouse down event to track the starting point
+    card.addEventListener("mousedown", () => {
+      isMouseDownOnCard = true;
+      mouseDownCardIndex = index; // Track the index of the card where the mouse is pressed
+
+      // Start a timeout to reset the click state after 1 second
+      clickTimeout = setTimeout(() => {
+        isMouseDownOnCard = false; // Invalidate the click if held too long
+        mouseDownCardIndex = -1;
+      }, 200); // 1-second delay
+    });
+
+    // Mouse up event to check if it's a valid click
+    card.addEventListener("mouseup", () => {
+      clearTimeout(clickTimeout); // Clear the timeout on mouse up
+      if (isMouseDownOnCard && mouseDownCardIndex === index) {
+        // Ensure the mouse was pressed and released on the same card within 1 second
+        const mainCarouselCards = getMainCarouselCards();
+        console.log("Clicked index:", index, "Card:", mainCarouselCards[index]); // Debug the index
+        openDetailedCarousel(mainCarouselCards, index); // Open the detailed carousel
+      }
+      // Reset the tracking variables
+      isMouseDownOnCard = false;
+      mouseDownCardIndex = -1;
+    });
+
+    // Mouse leave event to reset the tracking variables if the mouse moves away
+    card.addEventListener("mouseleave", () => {
+      clearTimeout(clickTimeout); // Clear the timeout if the mouse leaves the card
+      isMouseDownOnCard = false;
+      mouseDownCardIndex = -1;
     });
   });
 
